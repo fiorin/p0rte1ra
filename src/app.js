@@ -9,7 +9,9 @@ import { errors } from './core/methods';
 import { visuals } from './core/methods';
 import { forms } from './core/methods';
 
-console.log('here');
+// using dom-delegate for event delegate
+var Delegate = require('dom-delegate');
+// using nedb for database storage
 var Datastore = require('nedb'),
 	db = new Datastore({
 		filename: 'database/main.db'
@@ -38,15 +40,37 @@ var Datastore = require('nedb'),
 			_id: 'FHq9FWAc3vxExVxT'
 		}
 	);*/
-	var form = document.getElementById('form-animal');
-	form.addEventListener('submit',(event) => {
-		event.preventDefault();
-		var animal = forms.animal.register();
-		console.log(animal);
-		methods.insertAnimal(db,{
-			animal: animal
-		});
-	},false);
+
+const events = () => {
+	return {
+		links: () => {
+			let delegate = new Delegate(document);
+			delegate.on('click','.link',(event) => {
+				event.preventDefault();
+				console.log('link');
+			});
+		},
+		forms: () => {
+			let main = document.getElementById('main');
+			let delegate = new Delegate(main);
+			delegate.on('click','input',(event) => {
+				console.log('input');
+			});
+			delegate.on('submit','#form-animal',(event) => {
+				event.preventDefault();
+				var animal = forms.animal.register();
+				methods.insertAnimal(db,{
+					animal: animal
+				});
+				return false;
+			});
+		}
+	}
+}
+document.addEventListener('DOMContentLoaded', () => {
+	events().forms();
+	events().links();
+});
 
 // ---------------------------------------------------------------------------
 // All stuff below is just to show you how it works. You can delete all of it.

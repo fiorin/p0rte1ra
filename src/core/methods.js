@@ -35,11 +35,6 @@ export const methods = (() => {
 	}
 })();
 
-const getValueOrNullByName = (name) => {
-	var element = document.getElementsByName(name);
-	return (element[0] != undefined) ? element[0].value : null;
-}
-
 export const forms = (() => {
 	return {
 		animal: {
@@ -74,6 +69,9 @@ export const routes = (() => {
 		single: (doc) => {
 			console.log('single');
 			visuals.page.single(doc)
+		},
+		register: () => {
+			visuals.page.register();
 		}
 	}
 })();
@@ -91,7 +89,21 @@ export const visuals = (() => {
 		page: {
 			single: (doc) => {
 				console.log('page single',doc._id);
+			},
+			register: () => {
+				var html = '<div id="register"><form action="/" id="form-animal"><input type="text" name="ring" value="999"><input type="text" name="month" value="9"><input type="text" name="year" value="2015"><input type="text" name="grade" value="1"><input type="text" name="race" value="2"><input type="text" name="mark" value="3"><input type="submit" value="enviar"></form></div>';
+				renderString(html,'main');
 			}
 		}
 	}
 })();
+
+const getValueOrNullByName = (name) => {
+	var element = document.getElementsByName(name);
+	return (element[0] != undefined) ? element[0].value : null;
+}
+
+const renderString = (contentHtmlAsString,targetElementId) => {
+	var element = document.getElementById(targetElementId);
+	element.innerHTML = contentHtmlAsString;
+}
