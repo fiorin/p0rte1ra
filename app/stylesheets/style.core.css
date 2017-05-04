@@ -5,16 +5,13 @@ html, body {
   padding: 0;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: sans-serif;
-  color: #525252;
-}
-
 a {
   text-decoration: none;
+}
+
+body {
+  font-family: sans-serif;
+  color: #525252;
 }
 
 .container {
@@ -24,6 +21,8 @@ a {
 body #side{
   background: #ddd;
 }
+
 body #main{
 
 }
+

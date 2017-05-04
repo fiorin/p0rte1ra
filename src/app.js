@@ -48,6 +48,10 @@ const events = () => {
 			delegate.on('click','.link',(event) => {
 				event.preventDefault();
 				console.log('link');
+				console.log(event);
+				var target = event.target;
+				var route = target.getAttribute('data-route');
+				routes[route]();
 			});
 		},
 		forms: () => {
