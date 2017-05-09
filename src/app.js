@@ -19,27 +19,6 @@ var Datastore = require('nedb'),
 	db.loadDatabase(function(){
 	
 	});
-	//console.log(dba);
-	//console.log(dba.exec);
-	/*animal.insert(db,{
-			animals: {
-				id: 100,
-				ring: 1000,
-				born: {
-					month: 10,
-					year: 2016
-				},
-				grade: 1,
-				race: 1,
-				mark: 1
-			}
-		}
-	);
-	
-	methods.openAnimal(db,{
-			_id: 'FHq9FWAc3vxExVxT'
-		}
-	);*/
 
 const events = () => {
 	return {
@@ -47,11 +26,14 @@ const events = () => {
 			let delegate = new Delegate(document);
 			delegate.on('click','.link',(event) => {
 				event.preventDefault();
-				console.log('link');
-				console.log(event);
-				var target = event.target;
-				var route = target.getAttribute('data-route');
-				routes[route]();
+				let target = event.target;
+				let data = target.getAttribute('data-args') || null;
+				if(Array.isArray(data)){
+					data = data[0] && JSON.parse(data[0]);
+				}else{
+					data = JSON.parse(data);
+				}
+				routes[data.route](data);
 			});
 		},
 		forms: () => {
@@ -75,30 +57,3 @@ document.addEventListener('DOMContentLoaded', () => {
 	events().forms();
 	events().links();
 });
-
-// ---------------------------------------------------------------------------
-// All stuff below is just to show you how it works. You can delete all of it.
-/*import { remote } from 'electron';
-import jetpack from 'fs-jetpack';
-import { greet } from './hello_world/hello_world';
-import env from './env';
-
-const app = remote.app;
-const appDir = jetpack.cwd(app.getAppPath());
-
-// Holy crap! This is browser window with HTML and stuff, but I can read
-// here files form disk like it's node.js! Welcome to Electron world :)
-const manifest = appDir.read('package.json', 'json');
-
-const osMap = {
-  win32: 'Windows',
-  darwin: 'macOS',
-  linux: 'Linux',
-};
-
-document.querySelector('#greet').innerHTML = greet();
-document.querySelector('#os').innerHTML = osMap[process.platform];
-document.querySelector('#author').innerHTML = manifest.author;
-document.querySelector('#env').innerHTML = env.name;
-document.querySelector('#electron-version').innerHTML = process.versions.electron;
-*/

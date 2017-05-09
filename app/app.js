@@ -164,7 +164,6 @@ const forms = (() => {
 const routes = (() => {
 	return {
 		single: (doc) => {
-			console.log('single');
 			visuals.page.single(doc);
 		},
 		register: () => {
@@ -248,11 +247,14 @@ const events = () => {
 			let delegate = new Delegate(document);
 			delegate.on('click','.link',(event) => {
 				event.preventDefault();
-				console.log('link');
-				console.log(event);
-				var target = event.target;
-				var route = target.getAttribute('data-route');
-				routes[route]();
+				let target = event.target;
+				let data = target.getAttribute('data-args') || null;
+				if(Array.isArray(data)){
+					data = data[0] && JSON.parse(data[0]);
+				}else{
+					data = JSON.parse(data);
+				}
+				routes[data.route](data);
 			});
 		},
 		forms: () => {

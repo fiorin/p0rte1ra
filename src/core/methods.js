@@ -67,7 +67,6 @@ export const forms = (() => {
 export const routes = (() => {
 	return {
 		single: (doc) => {
-			console.log('single');
 			visuals.page.single(doc)
 		},
 		register: () => {
