@@ -115,18 +115,23 @@ const methods = (() => {
 		insertAnimal: (db,args) => {
 			console.log('insertAnimal');
 			var animal = args.animal;
-			db.insert(animal,function(err,doc){
+			db.insert(animal,(err,doc) => {
 				// callback err
 				// doc new reg
 			});
 		},
 		openAnimal: (db,args) => {
 			//args._id || return; 
-			db.findOne(args,function(err,doc){
+			db.findOne(args,(err,doc) => {
 				if(doc._id)
 					routes.single(doc);
 				else
 					errors.message('_id not found');
+			});
+		},
+		listAnimal: (bd,args) => {
+			db.find(args,(err,docs) => {
+				routes.list(docs);
 			});
 		}
 	}
@@ -137,7 +142,6 @@ const forms = (() => {
 		animal: {
 			register: () => {
 				var animal,	id, ring, month, year, grade, race, mark;
-				id    = getValueOrNullByName('id');
 				ring  = getValueOrNullByName('ring');
 				month = getValueOrNullByName('month');
 				year  = getValueOrNullByName('year');
@@ -145,7 +149,6 @@ const forms = (() => {
 				race  = getValueOrNullByName('race');
 				mark  = getValueOrNullByName('mark');
 				animal = {
-					id: id,
 					ring: ring,
 					born: {
 						month: month,
@@ -163,11 +166,17 @@ const forms = (() => {
 
 const routes = (() => {
 	return {
-		single: (doc) => {
+		single: (data) => {
+			//methods.
+			//var _id = data._id;
+			//var doc = null;
 			visuals.page.single(doc);
 		},
 		register: () => {
 			visuals.page.register();
+		},
+		list: (docs) => {
+			visuals.page.list(docs);
 		}
 	}
 })();
@@ -184,12 +193,23 @@ const visuals = (() => {
 	return {
 		page: {
 			single: (doc) => {
-				console.log('page single',doc._id);
 				var html = '<div id="single"><table><tbody><tr><td>id</td><td>xx</td></tr><tr><td>ring</td><td>xx</td></tr><tr><td>month</td><td>xx</td></tr><tr><td>year</td><td>xx</td></tr><tr><td>grade</td><td>xx</td></tr><tr><td>race</td><td>xx</td></tr><tr><td>mark</td><td>xx</td></tr></tbody></table></div>';
 				renderString(html,'main');
 			},
 			register: () => {
 				var html = '<div id="register"><form action="/" id="form-animal"><input type="text" name="ring" value="999"><input type="text" name="month" value="9"><input type="text" name="year" value="2015"><input type="text" name="grade" value="1"><input type="text" name="race" value="2"><input type="text" name="mark" value="3"><input type="submit" value="enviar"></form></div>';
+				renderString(html,'main');
+			},
+			list: (docs) => {
+				var list = '';
+				if(docs && docs.length > 0){
+					for(eachDoc in docs){
+						list += '<li class="col-2">xx</li><li class="col-2">xx</li><li class="col-2">xx</li><li class="col-2">xx</li><li class="col-2"><a href="#">Visualizar</a></li>';
+					}
+				}else{
+					list = '<li class="col-10">Nenhum cadastro até o momento</li>';
+				}
+				var html = '<div id="list"><ul class="animals"><li><ul class="each-animal-head"><li class="col-2">Brinco</li><li class="col-2">Marca</li><li class="col-2">Raça</li><li class="col-2">Nascimento</li><li class="col-2">Ações</li></ul></li><li><ul class="each-animal"'+list+'</ul></li></ul></div>';
 				renderString(html,'main');
 			}
 		}
@@ -213,33 +233,12 @@ const renderString = (contentHtmlAsString,targetElementId) => {
 var Delegate = require('dom-delegate');
 // using nedb for database storage
 var Datastore = require('nedb');
-var db = new Datastore({
+var db$1 = new Datastore({
 		filename: 'database/main.db'
 	});
-	db.loadDatabase(function(){
+	db$1.loadDatabase(function(){
 	
 	});
-	//console.log(dba);
-	//console.log(dba.exec);
-	/*animal.insert(db,{
-			animals: {
-				id: 100,
-				ring: 1000,
-				born: {
-					month: 10,
-					year: 2016
-				},
-				grade: 1,
-				race: 1,
-				mark: 1
-			}
-		}
-	);
-	
-	methods.openAnimal(db,{
-			_id: 'FHq9FWAc3vxExVxT'
-		}
-	);*/
 
 const events = () => {
 	return {
@@ -266,7 +265,7 @@ const events = () => {
 			delegate.on('submit','#form-animal',(event) => {
 				event.preventDefault();
 				var animal = forms.animal.register();
-				methods.insertAnimal(db,{
+				methods.insertAnimal(db$1,{
 					animal: animal
 				});
 				return false;
@@ -278,33 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	events().forms();
 	events().links();
 });
-
-// ---------------------------------------------------------------------------
-// All stuff below is just to show you how it works. You can delete all of it.
-/*import { remote } from 'electron';
-import jetpack from 'fs-jetpack';
-import { greet } from './hello_world/hello_world';
-import env from './env';
-
-const app = remote.app;
-const appDir = jetpack.cwd(app.getAppPath());
-
-// Holy crap! This is browser window with HTML and stuff, but I can read
-// here files form disk like it's node.js! Welcome to Electron world :)
-const manifest = appDir.read('package.json', 'json');
-
-const osMap = {
-  win32: 'Windows',
-  darwin: 'macOS',
-  linux: 'Linux',
-};
-
-document.querySelector('#greet').innerHTML = greet();
-document.querySelector('#os').innerHTML = osMap[process.platform];
-document.querySelector('#author').innerHTML = manifest.author;
-document.querySelector('#env').innerHTML = env.name;
-document.querySelector('#electron-version').innerHTML = process.versions.electron;
-*/
 
 }());
 //# sourceMappingURL=app.js.map
