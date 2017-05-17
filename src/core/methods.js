@@ -25,15 +25,18 @@ export const Methods = new ((function(){
 })())
 // Public method
 // args {} info animal
-Methods.insertAnimal = function(args){
+Methods.insertAnimal = function(data){
 	let db = this.db()
-	let animal = args.animal
+	let animal = data.animal
 	db.insert(animal,(err,doc) => {
 		Routes.inserted(doc)
 	})
 }
-Methods.openAnimal = function(args){
+Methods.openAnimal = function(data){
 	let db = this.db()
+	let args = {
+		_id: data._id
+	}
 	db.findOne(args,(err,doc) => {
 		if(doc._id)
 			Visuals.page.single(doc);
@@ -44,7 +47,7 @@ Methods.openAnimal = function(args){
 Methods.listAnimal = function(args){
 	let db = this.db()
 	db.find(args,(err,docs) => {
-		Routes.list(docs);
+		Visuals.page.list(docs);
 	});
 }
 
@@ -55,13 +58,13 @@ export const Routes = new ((function(){
 	}
 	__constructor.prototype.single = function(data){
 		let _id = data._id;
-		//openAnimal(null,_id);
+		Methods.openAnimal(data);
 	}
-	__constructor.prototype.register = function(data){
+	__constructor.prototype.register = function(){
 		Visuals.page.register();
 	}
-	__constructor.prototype.list = function(docs){
-		Visuals.page.list(docs);
+	__constructor.prototype.list = function(){
+		Methods.listAnimal()
 	}
 	__constructor.prototype.inserted = function(doc){
 		Visuals.page.inserted(doc);
@@ -75,7 +78,15 @@ export const Visuals = new ((function(){
 	}
 	__constructor.prototype.page = {}
 	__constructor.prototype.page.single = (doc) => {
-		let html = '<div id="single"><table><tbody><tr><td>id</td><td>xx</td></tr><tr><td>ring</td><td>xx</td></tr><tr><td>month</td><td>xx</td></tr><tr><td>year</td><td>xx</td></tr><tr><td>grade</td><td>xx</td></tr><tr><td>race</td><td>xx</td></tr><tr><td>mark</td><td>xx</td></tr></tbody></table></div>';
+		let _id, ring, mark, race, born, grade, mom
+		_id   = doc._id
+		ring  = doc.ring
+		mark  = doc.mark
+		grade = doc.grade
+		race  = doc.race
+		born  = doc.born.month+'/'+doc.born.year
+		mom   = doc.mom ? doc.mom : ''
+		let html = '<div id="single"><table><tbody><tr><td>ring</td><td>'+ring+'</td></tr><tr><td>born</td><td>'+born+'</td></tr><tr><td>grade</td><td>'+grade+'</td></tr><tr><td>race</td><td>'+race+'</td></tr><tr><td>mark</td><td>'+mark+'</td></tr><tr><td colspan="2"><a href="#" data-args=\'{"route":"single","_id":"'+mom+'"}\' class="link">acessar mãe</a></td></tr></tbody></table></div>';
 		renderString(html,'main');
 	}
 	__constructor.prototype.page.inserted = (doc) => {
@@ -89,13 +100,20 @@ export const Visuals = new ((function(){
 	__constructor.prototype.page.list = (docs) => {
 		let list = '';
 		if(docs && docs.length > 0){
-			for(eachDoc in docs){
-				list += '<li class="col-2">xx</li><li class="col-2">xx</li><li class="col-2">xx</li><li class="col-2">xx</li><li class="col-2"><a href="#">Visualizar</a></li>';
+			for(let eachDoc in docs){
+				let _id, ring, mark, race, born,actions
+				_id  = docs[eachDoc]._id
+				ring = docs[eachDoc].ring
+				mark = docs[eachDoc].mark
+				race = docs[eachDoc].race
+				born = docs[eachDoc].born.month+'/'+docs[eachDoc].born.year
+				actions = '<a href="#" data-args=\'{"route":"single","_id":"'+_id+'"}\' class="link">visualizar</a>'
+				list += '<li class="col-2">'+ring+'</li><li class="col-2">'+mark+'</li><li class="col-2">'+race+'</li><li class="col-2">'+born+'</li><li class="col-2">'+actions+'</li>';
 			}
 		}else{
 			list = '<li class="col-10">Nenhum cadastro até o momento</li>';
 		}
-		let html = '<div id="list"><ul class="animals"><li><ul class="each-animal-head"><li class="col-2">Brinco</li><li class="col-2">Marca</li><li class="col-2">Raça</li><li class="col-2">Nascimento</li><li class="col-2">Ações</li></ul></li><li><ul class="each-animal"'+list+'</ul></li></ul></div>';
+		let html = '<div id="list"><div class="animals clearfix text-center"><ul class="each-animal-head clearfix"><li class="col-2">Brinco</li><li class="col-2">Marca</li><li class="col-2">Raça</li><li class="col-2">Nascimento</li><li class="col-2">Ações</li></ul></div><div class="clearfix text-center"><ul class="each-animal">'+list+'</ul></li></ul></div></div>';
 		renderString(html,'main');
 	}
 	return __constructor
