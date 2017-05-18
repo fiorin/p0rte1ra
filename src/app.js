@@ -21,7 +21,6 @@ let Datastore = require('nedb'),
 	db.loadDatabase(function(){
 		Methods.db(db)
 	});
-let Render = require('jsrender')
 
 const Events = new ((function(){
 	function __constructor(){

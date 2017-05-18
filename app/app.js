@@ -95,24 +95,13 @@ const supportExternalLinks = (event) => {
 
 document.addEventListener('click', supportExternalLinks, false);
 
+let Render = require('jsrender');
+
 const Methods = new ((function(){
 	let database = null;
-	// Private method
-	// return database
-	function setDb(db){
-		database = db;
-	}
-	// Private method
-	// set database
-	function getDb(){
-		return database
-	}
-	// Constructor
-	function __constructor(){
-		let self = this;
-	}
-	// Privileged method
-	// set or return database
+	function setDb(db){	database = db; }
+	function getDb(){ return database }
+	function __constructor(){ let self = this; }
 	__constructor.prototype.db = function(db){
 		if(db==undefined)
 			return getDb()
@@ -120,8 +109,6 @@ const Methods = new ((function(){
 	};
 	return __constructor
 })());
-// Public method
-// args {} info animal
 Methods.insertAnimal = function(data){
 	let db = this.db();
 	let animal = data.animal;
@@ -150,9 +137,7 @@ Methods.listAnimal = function(args){
 
 const Routes = new ((function(){
 	// Constructor
-	function __constructor(){
-		let self = this;
-	}
+	function __constructor(){ let self = this; }
 	__constructor.prototype.single = function(data){
 		let _id = data._id;
 		Methods.openAnimal(data);
@@ -170,56 +155,31 @@ const Routes = new ((function(){
 })());
 
 const Visuals = new ((function(){
-	function __constructor(){
-		let self = this;
-	}
+	function __constructor(){ let self = this; }
 	__constructor.prototype.page = {};
 	__constructor.prototype.page.single = (doc) => {
-		let _id, ring, mark, race, born, grade, mom;
-		_id   = doc._id;
-		ring  = doc.ring;
-		mark  = doc.mark;
-		grade = doc.grade;
-		race  = doc.race;
-		born  = doc.born.month+'/'+doc.born.year;
-		mom   = doc.mom ? doc.mom : '';
-		let html = '<div id="single"><table><tbody><tr><td>ring</td><td>'+ring+'</td></tr><tr><td>born</td><td>'+born+'</td></tr><tr><td>grade</td><td>'+grade+'</td></tr><tr><td>race</td><td>'+race+'</td></tr><tr><td>mark</td><td>'+mark+'</td></tr><tr><td colspan="2"><a href="#" data-args=\'{"route":"single","_id":"'+mom+'"}\' class="link">acessar mãe</a></td></tr></tbody></table></div>';
+		let tmpl = Render.templates("./app/templates/animal_single.html");
+		let html = tmpl.render(doc);
 		renderString(html,'main');
 	};
 	__constructor.prototype.page.inserted = (doc) => {
 		let html = 'inserido com sucesso';
 		renderString(html,'main');
 	};
-	__constructor.prototype.page.register = (doc) => {
-		let html = '<div id="register"><form action="/" id="form-animal"><input type="text" name="ring" value="999"><input type="text" name="month" value="9"><input type="text" name="year" value="2015"><input type="text" name="grade" value="1"><input type="text" name="race" value="2"><input type="text" name="mark" value="3"><input type="submit" value="enviar"></form></div>';
-		renderString(html,'main');
-	};
 	__constructor.prototype.page.list = (docs) => {
-		let list = '';
-		if(docs && docs.length > 0){
-			for(let eachDoc in docs){
-				let _id, ring, mark, race, born,actions;
-				_id  = docs[eachDoc]._id;
-				ring = docs[eachDoc].ring;
-				mark = docs[eachDoc].mark;
-				race = docs[eachDoc].race;
-				born = docs[eachDoc].born.month+'/'+docs[eachDoc].born.year;
-				actions = '<a href="#" data-args=\'{"route":"single","_id":"'+_id+'"}\' class="link">visualizar</a>';
-				list += '<li class="col-2">'+ring+'</li><li class="col-2">'+mark+'</li><li class="col-2">'+race+'</li><li class="col-2">'+born+'</li><li class="col-2">'+actions+'</li>';
-			}
-		}else{
-			list = '<li class="col-10">Nenhum cadastro até o momento</li>';
-		}
-		let html = '<div id="list"><div class="animals clearfix text-center"><ul class="each-animal-head clearfix"><li class="col-2">Brinco</li><li class="col-2">Marca</li><li class="col-2">Raça</li><li class="col-2">Nascimento</li><li class="col-2">Ações</li></ul></div><div class="clearfix text-center"><ul class="each-animal">'+list+'</ul></li></ul></div></div>';
+		let tmpl = Render.templates("./app/templates/animal_list.html");
+		let html = tmpl.render({docs: docs});
 		renderString(html,'main');
 	};
 	return __constructor
 })());
-
+Visuals.page.register = function(){
+	let tmpl = Render.templates("./app/templates/form_register.html");
+	let html = tmpl.render({});
+	renderString(html,'main');
+};
 const Forms = new ((function(){
-	function __constructor(){
-		let self = this;
-	}
+	function __constructor(){ let self = this; }
 	__constructor.prototype.animal = {};
 	__constructor.prototype.animal.register = () => {
 		let animal,	id, ring, month, year, grade, race, mark;
@@ -245,9 +205,7 @@ const Forms = new ((function(){
 })());
 
 const Errors = new ((function(){
-	function __constructor(){
-		let self = this;
-	}
+	function __constructor(){ let self = this; }
 	__constructor.prototype.message = (message) => {
 		console.log(message);
 	};
@@ -267,8 +225,6 @@ const renderString = (contentHtmlAsString,targetElementId) => {
 // Here is the starting point for your application code.
 
 // Small helpers you might want to keep
-//import { Methods } from './core/methods';
-// using dom-delegate for event delegate
 let Delegate = require('dom-delegate');
 // using nedb for database storage
 let Datastore = require('nedb');
@@ -278,7 +234,6 @@ let db = new Datastore({
 	db.loadDatabase(function(){
 		Methods.db(db);
 	});
-let Render = require('jsrender');
 
 const Events = new ((function(){
 	function __constructor(){
