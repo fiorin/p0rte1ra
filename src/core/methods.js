@@ -63,23 +63,23 @@ export const Visuals = new ((function(){
 	__constructor.prototype.page.single = (doc) => {
 		let tmpl = Render.templates("./app/templates/animal_single.html")
 		let html = tmpl.render(doc)
-		renderString(html,'main');
+		renderString(html,'content');
 	}
 	__constructor.prototype.page.inserted = (doc) => {
 		let html = 'inserido com sucesso'
-		renderString(html,'main')
+		renderString(html,'content')
 	}
 	__constructor.prototype.page.list = (docs) => {
 		let tmpl = Render.templates("./app/templates/animal_list.html")
 		let html = tmpl.render({docs: docs})
-		renderString(html,'main');
+		renderString(html,'content');
 	}
 	return __constructor
 })())
 Visuals.page.register = function(){
 	let tmpl = Render.templates("./app/templates/form_register.html")
 	let html = tmpl.render({})
-	renderString(html,'main');
+	renderString(html,'content');
 }
 export const Forms = new ((function(){
 	function __constructor(){ let self = this }

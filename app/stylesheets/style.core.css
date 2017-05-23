@@ -7,17 +7,21 @@ html, body {
 
 a {
   text-decoration: none;
+  color: #666;
 }
-
+a:hover{
+  color: #444;
+}
+.text-red{
+  color:#d9534f;
+}
 body {
   font-family: sans-serif;
   color: #525252;
 }
-
 .container {
   text-align: center;
 }
-
 body #side{
   background: #ddd;
   position:absolute;
@@ -25,9 +29,63 @@ body #side{
   left:0;
   bottom:0;
   width:30%;
+  border-right:1px solid #ccc;
 }
-
 body #main{
   margin-left:30%;
+  font-size:12px;
+}
+body #main p{
+  margin:5px 0;
+}
+body #breadcrumbs{
+  padding:20px 20px 0;
+  color: #333;
+}
+body #breadcrumbs li{
+  
+}
+body #breadcrumbs li:not(:last-child):after{
+  content: "\2023";
+}
+div#content{
+  padding:20px;
+}
+form.form{
+  border:1px solid #ddd;
+  padding:20px;
+  color: #333;
+  background: #f8f8f8;
+}
+form.form .form-cell{
+  padding:10px 5px;
+}
+form.form .form-label{
+  padding-bottom:5px;
+}
+form.form label{
+  color: #555;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+form.form select,
+form.form input{
+  padding: 5px;
+  background: #fff;
+  border: 1px solid #999;
+  height: 30px;
+}
+form.form input[type='submit']{
+  background: #5cb85c;
+  display: inline-block;
+  height: 30px;
+  padding: 0 10px;
+  color: #fff;
+  font-weight: bold;
+  border: 0;
+  text-transform: capitalize;
+}
+form.form input[type='submit']:hover{
+  background: #449d44;
 }
 

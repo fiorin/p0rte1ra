@@ -29,35 +29,34 @@ const Events = new ((function(){
 	__constructor.prototype.links = () => {
 		let delegate = new Delegate(document);
 		delegate.on('click','.link',(event) => {
-			event.preventDefault();
-			let target = event.target;
+			event.preventDefault()
+			let target = event.target
 			let data = target.getAttribute('data-args') || null;
-			if(Array.isArray(data)){
-				data = data[0] && JSON.parse(data[0]);
-			}else{
-				data = JSON.parse(data);
-			}
-			Routes[data.route](data);
+			if(Array.isArray(data))
+				data = data[0] && JSON.parse(data[0])
+			else
+				data = JSON.parse(data)
+			Routes[data.route](data)
 		});
 	}
 	__constructor.prototype.forms = () => {
-		let main = document.getElementById('main');
-		let delegate = new Delegate(main);
+		let main = document.getElementById('main')
+		let delegate = new Delegate(main)
 		delegate.on('click','input',(event) => {
-			console.log('input');
+
 		});
 		delegate.on('submit','#form-animal',(event) => {
-			event.preventDefault();
-			var animal = forms.animal.register();
-			Methods.insertAnimal(db,{
+			event.preventDefault()
+			var animal = Forms.animal.register()
+			Methods.insertAnimal({
 				animal: animal
 			});
-			return false;
+			return false
 		});
 	}
 	return __constructor
 })())
 document.addEventListener('DOMContentLoaded', () => {
-	Events.forms();
-	Events.links();
+	Events.forms()
+	Events.links()
 });

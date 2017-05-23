@@ -160,23 +160,23 @@ const Visuals = new ((function(){
 	__constructor.prototype.page.single = (doc) => {
 		let tmpl = Render.templates("./app/templates/animal_single.html");
 		let html = tmpl.render(doc);
-		renderString(html,'main');
+		renderString(html,'content');
 	};
 	__constructor.prototype.page.inserted = (doc) => {
 		let html = 'inserido com sucesso';
-		renderString(html,'main');
+		renderString(html,'content');
 	};
 	__constructor.prototype.page.list = (docs) => {
 		let tmpl = Render.templates("./app/templates/animal_list.html");
 		let html = tmpl.render({docs: docs});
-		renderString(html,'main');
+		renderString(html,'content');
 	};
 	return __constructor
 })());
 Visuals.page.register = function(){
 	let tmpl = Render.templates("./app/templates/form_register.html");
 	let html = tmpl.render({});
-	renderString(html,'main');
+	renderString(html,'content');
 };
 const Forms = new ((function(){
 	function __constructor(){ let self = this; }
@@ -225,6 +225,8 @@ const renderString = (contentHtmlAsString,targetElementId) => {
 // Here is the starting point for your application code.
 
 // Small helpers you might want to keep
+//import { Methods } from './core/methods';
+// using dom-delegate for event delegate
 let Delegate = require('dom-delegate');
 // using nedb for database storage
 let Datastore = require('nedb');
@@ -245,11 +247,10 @@ const Events = new ((function(){
 			event.preventDefault();
 			let target = event.target;
 			let data = target.getAttribute('data-args') || null;
-			if(Array.isArray(data)){
+			if(Array.isArray(data))
 				data = data[0] && JSON.parse(data[0]);
-			}else{
+			else
 				data = JSON.parse(data);
-			}
 			Routes[data.route](data);
 		});
 	};
@@ -257,15 +258,15 @@ const Events = new ((function(){
 		let main = document.getElementById('main');
 		let delegate = new Delegate(main);
 		delegate.on('click','input',(event) => {
-			console.log('input');
+
 		});
 		delegate.on('submit','#form-animal',(event) => {
 			event.preventDefault();
-			var animal = forms.animal.register();
-			Methods.insertAnimal(db,{
+			var animal = Forms.animal.register();
+			Methods.insertAnimal({
 				animal: animal
 			});
-			return false;
+			return false
 		});
 	};
 	return __constructor
