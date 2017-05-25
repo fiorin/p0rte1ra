@@ -115,4 +115,24 @@ form.form input[type='submit']{
 form.form input[type='submit']:hover{
   background: #449d44;
 }
-
+table.table{
+  border:1px solid #777;
+}
+table.table thead{
+  background:#777;
+  color: #fff;
+}
+table.table thead th{
+  padding:5px;
+  text-align:center;
+  font-weight:bold;
+}
+table.table tbody td{
+  padding:5px;
+}
+table.table tbody tr:nth-child(2n){
+  background:#eee;
+}
+table.table .fa{
+  font-size:14px;margin:0 5px;
+}
