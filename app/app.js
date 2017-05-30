@@ -113,7 +113,11 @@ Methods.insertAnimal = function(data){
 	let db = this.db();
 	let animal = data.animal;
 	db.insert(animal,(err,doc) => {
-		Routes.inserted(doc);
+		Routes.register();
+		let _id = doc._id;
+		Visuals.effects.feedback({
+			msg: "Registro adicionado com sucesso"
+		});
 	});
 };
 Methods.openAnimal = function(data){
@@ -134,9 +138,26 @@ Methods.listAnimal = function(args){
 		Visuals.page.list(docs);
 	});
 };
+Methods.removeAnimal = function(data){
+	let db = this.db();
+	let args = {
+		_id: data._id
+	};
+	if(data.stay){
+		Visuals.effects.removeElement(args);
+		db.remove(args,(err,doc) => {
+			doc && Visuals.effects.feedback({
+				msg: "Registro removido com sucesso"
+			});
+		});
+	}else{
+		db.remove(args,(err,doc) => {
+			Routes.list();
+		});
+	}
+};
 
 const Routes = new ((function(){
-	// Constructor
 	function __constructor(){ let self = this; }
 	__constructor.prototype.single = function(data){
 		let _id = data._id;
@@ -150,6 +171,14 @@ const Routes = new ((function(){
 	};
 	__constructor.prototype.inserted = function(doc){
 		Visuals.page.inserted(doc);
+	};
+	__constructor.prototype.remove = function(data){
+		let _id = data._id;
+		let stay = data.stay;
+		Methods.removeAnimal({
+			_id: _id,
+			stay: stay
+		});
 	};
 	return __constructor
 })());
@@ -170,6 +199,24 @@ const Visuals = new ((function(){
 		let tmpl = Render.templates("./app/templates/animal_list.html");
 		let html = tmpl.render({docs: docs});
 		renderString(html,'content');
+	};
+	__constructor.prototype.effects = {};
+	__constructor.prototype.effects.removeElement = (args) => {
+		let _id = args._id;
+		let element = document.getElementById('list-'+_id);
+		element.classList.add("nodisplay");
+	};
+	__constructor.prototype.effects.feedback = (args) => {
+		let html = '';
+		if(args.msg){
+			let msg = args.msg;
+			let tmpl = Render.templates("./app/templates/feedback.html");
+			html = tmpl.render({
+				msg: msg,
+				color: 'success'
+			});
+		}
+		renderString(html,'feedback');
 	};
 	return __constructor
 })());
@@ -199,7 +246,7 @@ const Forms = new ((function(){
 			race: race,
 			mark: mark
 		};
-		return animal;
+		return animal
 	};
 	return __constructor
 })());
@@ -214,7 +261,7 @@ const Errors = new ((function(){
 
 const getValueOrNullByName = (name) => {
 	var element = document.getElementsByName(name);
-	return (element[0] != undefined) ? element[0].value : null;
+	return (element[0] != undefined) ? element[0].value : null
 };
 
 const renderString = (contentHtmlAsString,targetElementId) => {
@@ -225,8 +272,6 @@ const renderString = (contentHtmlAsString,targetElementId) => {
 // Here is the starting point for your application code.
 
 // Small helpers you might want to keep
-//import { Methods } from './core/methods';
-// using dom-delegate for event delegate
 let Delegate = require('dom-delegate');
 // using nedb for database storage
 let Datastore = require('nedb');

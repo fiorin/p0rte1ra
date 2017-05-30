@@ -61,6 +61,7 @@ body #side ul li a:hover{
 body #main{
   margin-left:30%;
   font-size:12px;
+  padding: 20px;
 }
 body #main p{
   margin:5px 0;
@@ -76,7 +77,7 @@ body #breadcrumbs li:not(:last-child):after{
   content: "\2023";
 }
 div#content{
-  padding:20px;
+
 }
 form.form{
   border:1px solid #ddd;
@@ -134,5 +135,33 @@ table.table tbody tr:nth-child(2n){
   background:#eee;
 }
 table.table .fa{
-  font-size:14px;margin:0 5px;
+  font-size:19px;padding:2px 5px;
+}
+#feedback{
+
+}
+.alert{
+  margin-bottom:20px;
+  border:1px solid #ccc;
+}
+.alert-success{
+  padding:10px;
+  color:#3c763d;
+  background: #dff0d8;
+  border-color:#d6e9c6;
+}
+.alert-danger{
+  color: #a94442;
+  background: #f2dede;
+  border-color: #ebccd1;
+}
+.alert-warning{
+  color: #8a6d3b;
+  background: #fcf8e3;
+  border-color: #faebcc;
+}
+.alert-info{
+  color: #31708f;
+  background: #d9edf7;
+  border-color: #bce8f1;
 }
