@@ -29,6 +29,8 @@ Methods.openAnimal = function(data){
 		_id: data._id
 	}
 	db.findOne(args,(err,doc) => {
+		doc.sons = [doc,doc]
+		doc.mom = doc
 		if(doc._id)
 			Visuals.page.single(doc)
 		else
@@ -139,6 +141,7 @@ export const Forms = new ((function(){
 		grade = getValueOrNullByName('grade')
 		race  = getValueOrNullByName('race')
 		mark  = getValueOrNullByName('mark')
+		sex   = getValueOrNullByName('sex')
 		animal = {
 			ring: ring,
 			born: {
@@ -147,12 +150,23 @@ export const Forms = new ((function(){
 			},
 			grade: grade,
 			race: race,
-			mark: mark
+			mark: mark,
+			sex: sex
 		}
 		return animal
 	}
 	return __constructor
 })())
+
+export const Translate = {
+	sex: {
+		0: 'Fêmea',
+		1: 'Macho'
+	},
+	race: {
+		
+	}
+}
 
 export const Errors = new ((function(){
 	function __constructor(){ let self = this }

@@ -126,6 +126,8 @@ Methods.openAnimal = function(data){
 		_id: data._id
 	};
 	db.findOne(args,(err,doc) => {
+		doc.sons = [doc,doc];
+		doc.mom = doc;
 		if(doc._id)
 			Visuals.page.single(doc);
 		else
@@ -236,6 +238,7 @@ const Forms = new ((function(){
 		grade = getValueOrNullByName('grade');
 		race  = getValueOrNullByName('race');
 		mark  = getValueOrNullByName('mark');
+		sex   = getValueOrNullByName('sex');
 		animal = {
 			ring: ring,
 			born: {
@@ -244,12 +247,15 @@ const Forms = new ((function(){
 			},
 			grade: grade,
 			race: race,
-			mark: mark
+			mark: mark,
+			sex: sex
 		};
 		return animal
 	};
 	return __constructor
 })());
+
+
 
 const Errors = new ((function(){
 	function __constructor(){ let self = this; }
@@ -272,6 +278,8 @@ const renderString = (contentHtmlAsString,targetElementId) => {
 // Here is the starting point for your application code.
 
 // Small helpers you might want to keep
+//import { Methods } from './core/methods';
+// using dom-delegate for event delegate
 let Delegate = require('dom-delegate');
 // using nedb for database storage
 let Datastore = require('nedb');
