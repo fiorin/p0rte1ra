@@ -31,10 +31,17 @@ Methods.openAnimal = function(data){
 	db.findOne(args,(err,doc) => {
 		doc.sons = [doc,doc]
 		doc.mom = doc
-		if(doc._id)
+		if(doc._id){
+			var translated = {
+				sex:   translate(doc.sex,'sex'),
+				race:  translate(doc.race,'race'),
+				grade: translate(doc.grade,'grade')
+			}
+			doc.translate = translated
 			Visuals.page.single(doc)
-		else
+		}else{
 			Errors.message('_id not found')
+		}
 	});
 }
 Methods.listAnimal = function(args){
@@ -134,7 +141,7 @@ export const Forms = new ((function(){
 	function __constructor(){ let self = this }
 	__constructor.prototype.animal = {}
 	__constructor.prototype.animal.register = () => {
-		let animal,	id, ring, month, year, grade, race, mark
+		let animal,	id, ring, month, year, grade, race, mark, sex
 		ring  = getValueOrNullByName('ring')
 		month = getValueOrNullByName('month')
 		year  = getValueOrNullByName('year')
@@ -158,16 +165,6 @@ export const Forms = new ((function(){
 	return __constructor
 })())
 
-export const Translate = {
-	sex: {
-		0: 'Fêmea',
-		1: 'Macho'
-	},
-	race: {
-		
-	}
-}
-
 export const Errors = new ((function(){
 	function __constructor(){ let self = this }
 	__constructor.prototype.message = (message) => {
@@ -178,10 +175,65 @@ export const Errors = new ((function(){
 
 const getValueOrNullByName = (name) => {
 	var element = document.getElementsByName(name)
+	console.log(element)
 	return (element[0] != undefined) ? element[0].value : null
 }
 
 const renderString = (contentHtmlAsString,targetElementId) => {
 	var element = document.getElementById(targetElementId)
 	element.innerHTML = contentHtmlAsString
+}
+
+const translate = (value,section) => {
+	if(!value || value == undefined) return false 
+	if(!section) section = 'all'
+	if(Translate[section] != undefined && Translate[section][value] != undefined)
+		return Translate[section][value]
+	else
+		return value
+}
+
+const Translate = {
+	all: {
+
+	},
+	sex: {
+		0: 'F',
+		1: 'M'
+	},
+	race: {
+		cruzado:  'Cruzado',
+		brangus:  'Brangus',
+		nelore:   'Nelore',
+		angus:    'Angus',
+		limousin: 'Limousin',
+		gir:      'Gir',
+		simmental:'Simmental',
+		holandesa:'Holandês',
+		hereford: 'Hereford',
+		brahman:  'Brahman',
+		outros:   'Outros'
+	},
+	grade: {
+		 1: 'Puro',
+		38: '3/8',
+		18: '1/8',
+		34: '3/4',
+		14: '1/4',
+		12: '1/2'
+	},
+	month: {
+		 1: 'Janeiro',
+		 2: 'Fevereiro',
+		 3: 'Março',
+		 4: 'Abril',
+		 5: 'Maio',
+		 6: 'Junho',
+		 7: 'Julho',
+		 8: 'Agosto',
+		 9: 'Setembro',
+		10: 'Outubro',
+		11: 'Novembro',
+		12: 'Dezembro'
+	}
 }

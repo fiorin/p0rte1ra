@@ -208,6 +208,12 @@ table.table .fa{
   padding:3px;
   border:1px solid #bbb;
 }
+.sex-0{
+  color: #ff6464;
+}
+.sex-1{
+  color: #006464;
+}
 #feedback{
 
 }
