@@ -68,6 +68,23 @@ Methods.removeAnimal = function(data){
 		})
 	}
 }
+Methods.listSons = function(args){
+	let db = this.db()
+	db.find(args,(err,docs) => {
+		Visuals.page.list(docs)
+	});
+}
+Methods.prepareRegister= function(){
+	let db = this.db()
+	let args = {
+		sex: '0'
+	}
+	db.find(args,function(err,docs){
+		Visuals.page.register({
+			females: docs
+		})
+	});
+}
 
 export const Routes = new ((function(){
 	function __constructor(){ let self = this }
@@ -76,7 +93,7 @@ export const Routes = new ((function(){
 		Methods.openAnimal(data)
 	}
 	__constructor.prototype.register = function(){
-		Visuals.page.register()
+		Methods.prepareRegister()
 	}
 	__constructor.prototype.list = function(){
 		Methods.listAnimal()
@@ -132,9 +149,11 @@ export const Visuals = new ((function(){
 	}
 	return __constructor
 })())
-Visuals.page.register = function(){
+Visuals.page.register = function(args){
 	let tmpl = Render.templates("./app/templates/form_register.html")
-	let html = tmpl.render({})
+	let html = tmpl.render({
+		females: args.females
+	})
 	renderString(html,'content')
 }
 export const Forms = new ((function(){
