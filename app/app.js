@@ -96,6 +96,9 @@ const supportExternalLinks = (event) => {
 document.addEventListener('click', supportExternalLinks, false);
 
 let Render = require('jsrender');
+let Config = {
+	route: 'main'
+};
 
 const Methods = new ((function(){
 	let database = null;
@@ -126,22 +129,54 @@ Methods.openAnimal = function(data){
 		_id: data._id
 	};
 	db.findOne(args,(err,doc) => {
-		doc.sons = [doc,doc];
-		doc.mom = doc;
-		if(doc._id){
+		let animal = doc;
+		if(animal._id){
 			var translated = {
-				sex:   translate(doc.sex,'sex'),
-				race:  translate(doc.race,'race'),
-				grade: translate(doc.grade,'grade')
+				sex:   translate(animal.sex,'sex'),
+				race:  translate(animal.race,'race'),
+				grade: translate(animal.grade,'grade')
 			};
-			doc.translate = translated;
-			Visuals.page.single(doc);
+			animal.translate = translated;
+			if(animal.mom){
+				let args = {
+					_id: animal.mom
+				};
+				db.findOne(args,(err,doc) => {
+					if(doc){
+						animal.mom = doc;
+					}
+					let args = {
+						mom: animal._id
+					};
+					db.find(args,(err,docs) => {
+						Visuals.page.list(docs);
+						console.log('filhos');
+						console.log(docs);
+						if(docs.length){
+							animal.sons = docs;
+						}
+						Visuals.page.single(animal);
+					});
+				});
+			}else{
+				let args = {
+					mom: animal._id
+				};
+				db.find(args,(err,docs) => {
+					Visuals.page.list(docs);
+					if(docs.length){
+						animal.sons = docs;
+					}
+					Visuals.page.single(animal);
+				});
+			}
 		}else{
 			Errors.message('_id not found');
 		}
 	});
 };
 Methods.listAnimal = function(args){
+		console.log(Config.route);
 	let db = this.db();
 	db.find(args,(err,docs) => {
 		Visuals.page.list(docs);
@@ -171,7 +206,7 @@ Methods.listSons = function(args){
 		Visuals.page.list(docs);
 	});
 };
-Methods.prepareRegister= function(){
+Methods.prepareRegister = function(){
 	let db = this.db();
 	let args = {
 		sex: '0'
@@ -182,17 +217,26 @@ Methods.prepareRegister= function(){
 		});
 	});
 };
+Methods.kill = function(){
+	let db = this.db();
+	let args = {
+
+	};
+};
 
 const Routes = new ((function(){
 	function __constructor(){ let self = this; }
 	__constructor.prototype.single = function(data){
+		console.log('routes single');
 		let _id = data._id;
+		console.log(data);
 		Methods.openAnimal(data);
 	};
 	__constructor.prototype.register = function(){
 		Methods.prepareRegister();
 	};
 	__constructor.prototype.list = function(){
+		Config.route = 'list';
 		Methods.listAnimal();
 	};
 	__constructor.prototype.inserted = function(doc){
@@ -257,7 +301,7 @@ const Forms = new ((function(){
 	function __constructor(){ let self = this; }
 	__constructor.prototype.animal = {};
 	__constructor.prototype.animal.register = () => {
-		let animal,	id, ring, month, year, grade, race, mark, sex;
+		let animal,	id, ring, month, year, grade, race, mark, sex, mom;
 		ring  = getValueOrNullByName('ring');
 		month = getValueOrNullByName('month');
 		year  = getValueOrNullByName('year');
@@ -265,6 +309,7 @@ const Forms = new ((function(){
 		race  = getValueOrNullByName('race');
 		mark  = getValueOrNullByName('mark');
 		sex   = getValueOrNullByName('sex');
+		mom   = getValueOrNullByName('mom');
 		animal = {
 			ring: ring,
 			born: {
@@ -274,7 +319,8 @@ const Forms = new ((function(){
 			grade: grade,
 			race: race,
 			mark: mark,
-			sex: sex
+			sex: sex,
+			mom: mom
 		};
 		return animal
 	};
@@ -383,6 +429,7 @@ const Events = new ((function(){
 				data = data[0] && JSON.parse(data[0]);
 			else
 				data = JSON.parse(data);
+		console.log(data);
 			Routes[data.route](data);
 		});
 	};
