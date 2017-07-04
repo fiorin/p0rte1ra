@@ -79,8 +79,10 @@ Methods.openAnimal = function(data){
 	});
 }
 Methods.listAnimal = function(args){
-		console.log(Config.route)
 	let db = this.db()
+	if(args == undefined)
+		args = {} 
+	args.status = 'ok'
 	db.find(args,(err,docs) => {
 		Visuals.page.list(docs)
 	});
@@ -120,11 +122,17 @@ Methods.prepareRegister = function(){
 		})
 	});
 }
-Methods.kill = function(){
+Methods.killAnimal = function(data){
 	let db = this.db()
 	let args = {
-
+		_id: data._id
 	}
+	db.update(
+		args,{$set: {status: 'kill'}},{},
+		function(){
+
+		}
+	)
 }
 
 export const Routes = new ((function(){
@@ -151,6 +159,12 @@ export const Routes = new ((function(){
 		Methods.removeAnimal({
 			_id: _id,
 			stay: stay
+		})
+	}
+	__constructor.prototype.kill = function(data){
+		let _id = data._id
+		Methods.killAnimal({
+			_id: _id,
 		})
 	}
 	return __constructor

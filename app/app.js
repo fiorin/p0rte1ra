@@ -176,8 +176,10 @@ Methods.openAnimal = function(data){
 	});
 };
 Methods.listAnimal = function(args){
-		console.log(Config.route);
 	let db = this.db();
+	if(args == undefined)
+		args = {}; 
+	args.status = 'ok';
 	db.find(args,(err,docs) => {
 		Visuals.page.list(docs);
 	});
@@ -217,11 +219,17 @@ Methods.prepareRegister = function(){
 		});
 	});
 };
-Methods.kill = function(){
+Methods.killAnimal = function(data){
 	let db = this.db();
 	let args = {
-
+		_id: data._id
 	};
+	db.update(
+		args,{$set: {status: 'kill'}},{},
+		function(){
+
+		}
+	);
 };
 
 const Routes = new ((function(){
@@ -248,6 +256,12 @@ const Routes = new ((function(){
 		Methods.removeAnimal({
 			_id: _id,
 			stay: stay
+		});
+	};
+	__constructor.prototype.kill = function(data){
+		let _id = data._id;
+		Methods.killAnimal({
+			_id: _id,
 		});
 	};
 	return __constructor
@@ -442,6 +456,7 @@ const Events = new ((function(){
 		delegate.on('submit','#form-animal',(event) => {
 			event.preventDefault();
 			var animal = Forms.animal.register();
+			animal.status = 'ok';
 			Methods.insertAnimal({
 				animal: animal
 			});
