@@ -53,8 +53,6 @@ Methods.openAnimal = function(data){
 					}
 					db.find(args,(err,docs) => {
 						Visuals.page.list(docs)
-						console.log('filhos')
-						console.log(docs)
 						if(docs.length){
 							animal.sons = docs
 						}
@@ -122,6 +120,21 @@ Methods.prepareRegister = function(){
 		})
 	});
 }
+Methods.prepareRegisterChild = function(data){
+	let db = this.db()
+	let args = {
+		_id: data._id
+	}
+	db.findOne(args,(err,doc) => {
+		var translated = {
+			sex:   translate(doc.sex,'sex'),
+			race:  translate(doc.race,'race'),
+			grade: translate(doc.grade,'grade')
+		}
+		doc.translate = translated
+		Visuals.page.registerChild(doc)
+	});
+}
 Methods.killAnimal = function(data){
 	let db = this.db()
 	let args = {
@@ -138,15 +151,18 @@ Methods.killAnimal = function(data){
 export const Routes = new ((function(){
 	function __constructor(){ let self = this }
 	__constructor.prototype.single = function(data){
-		console.log('routes single')
 		let _id = data._id
-		console.log(data)
 		Methods.openAnimal(data)
 	}
 	__constructor.prototype.register = function(){
 		Methods.prepareRegister()
 	}
+	__constructor.prototype.registerChild = function(data){
+		Visuals.effects.feedback()
+		Methods.prepareRegisterChild(data)
+	}
 	__constructor.prototype.list = function(){
+		Visuals.effects.feedback()
 		Config.route = 'list'
 		Methods.listAnimal()
 	}
@@ -195,7 +211,7 @@ export const Visuals = new ((function(){
 	}
 	__constructor.prototype.effects.feedback = (args) => {
 		let html = ''
-		if(args.msg){
+		if(args && args.msg){
 			let msg = args.msg
 			let tmpl = Render.templates("./app/templates/feedback.html")
 			html = tmpl.render({
@@ -205,15 +221,20 @@ export const Visuals = new ((function(){
 		}
 		renderString(html,'feedback')
 	}
+	__constructor.prototype.page.register = (args) => {
+		let tmpl = Render.templates("./app/templates/form_register.html")
+		let html = tmpl.render({
+			females: args.females
+		})
+		renderString(html,'content')
+	}
+	__constructor.prototype.page.registerChild = (mom) => {
+		let tmpl = Render.templates("./app/templates/form_register_child.html")
+		let html = tmpl.render(mom)
+		renderString(html,'content')
+	}
 	return __constructor
 })())
-Visuals.page.register = function(args){
-	let tmpl = Render.templates("./app/templates/form_register.html")
-	let html = tmpl.render({
-		females: args.females
-	})
-	renderString(html,'content')
-}
 export const Forms = new ((function(){
 	function __constructor(){ let self = this }
 	__constructor.prototype.animal = {}
