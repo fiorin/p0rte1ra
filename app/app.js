@@ -123,6 +123,18 @@ Methods.insertAnimal = function(data){
 		});
 	});
 };
+Methods.editAnimal = function(data){
+	let db = this.db();
+	let animal = data.animal;
+	console.log('edit');
+	/*db.update(animal,(err,doc) => {
+		Routes.register()
+		let _id = doc._id
+		Visuals.effects.feedback({
+			msg: "Registro adicionado com sucesso"
+		})
+	})*/
+};
 Methods.openAnimal = function(data){
 	let db = this.db();
 	let args = {
@@ -177,7 +189,6 @@ Methods.listAnimal = function(args){
 	let db = this.db();
 	if(args == undefined)
 		args = {}; 
-	args.status = 'ok';
 	db.find(args,(err,docs) => {
 		Visuals.page.list(docs);
 	});
@@ -232,6 +243,21 @@ Methods.prepareRegisterChild = function(data){
 		Visuals.page.registerChild(doc);
 	});
 };
+Methods.prepareEdit = function(data){
+	let db = this.db();
+	let args = {
+		_id: data._id
+	};
+	db.findOne(args,(err,doc) => {
+		var translated = {
+			sex:   translate(doc.sex,'sex'),
+			race:  translate(doc.race,'race'),
+			grade: translate(doc.grade,'grade')
+		};
+		doc.translate = translated;
+		Visuals.page.edit(doc);
+	});
+};
 Methods.killAnimal = function(data){
 	let db = this.db();
 	let args = {
@@ -258,10 +284,13 @@ const Routes = new ((function(){
 		Visuals.effects.feedback();
 		Methods.prepareRegisterChild(data);
 	};
-	__constructor.prototype.list = function(){
+	__constructor.prototype.list = function(data){
 		Visuals.effects.feedback();
 		Config.route = 'list';
-		Methods.listAnimal();
+		let args = {
+			status: data.status
+		};
+		Methods.listAnimal(args);
 	};
 	__constructor.prototype.inserted = function(doc){
 		Visuals.page.inserted(doc);
@@ -279,6 +308,9 @@ const Routes = new ((function(){
 		Methods.killAnimal({
 			_id: _id,
 		});
+	};
+	__constructor.prototype.edit = function(data){
+		Methods.prepareEdit(data);
 	};
 	return __constructor
 })());
@@ -328,6 +360,12 @@ const Visuals = new ((function(){
 	__constructor.prototype.page.registerChild = (mom) => {
 		let tmpl = Render.templates("./app/templates/form_register_child.html");
 		let html = tmpl.render(mom);
+		renderString(html,'content');
+	};
+	__constructor.prototype.page.edit = (animal) => {
+		let tmpl = Render.templates("./app/templates/form_edit.html");
+		let html = tmpl.render(animal);
+		console.log(animal);
 		renderString(html,'content');
 	};
 	return __constructor
@@ -479,6 +517,14 @@ const Events = new ((function(){
 			var animal = Forms.animal.register();
 			animal.status = 'ok';
 			Methods.insertAnimal({
+				animal: animal
+			});
+			return false
+		});
+		delegate.on('submit','#form-animal-edit',(event) => {
+			event.preventDefault();
+			var animal = Forms.animal.register();
+			Methods.editAnimal({
 				animal: animal
 			});
 			return false

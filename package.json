@@ -1,17 +1,18 @@
 {
-  "name": "electron-boilerplate",
-  "productName": "Electron Boilerplate",
-  "description": "Starter for your Electron application",
+  "name": "p0rte1ra",
+  "productName": "p0rte1ra",
+  "description": "Sistema para controle bovino",
   "version": "0.0.0",
-  "author": "Mr. Gumby <mr.gumby@example.com>",
+  "author": "Luciano Fiorin <luciano@fior.in>",
   "copyright": "© 2016, Gumby inc.",
-  "homepage": "http://example.com",
+  "homepage": "http://fior.in/p0rte1ra",
   "license": "MIT",
   "main": "app/background.js",
   "build": {
-    "appId": "com.example.electron-boilerplate",
+    "appId": "in.fior.p0rte1ra",
     "files": [
       "app/**/*",
+      "database/**/*",
       "node_modules/**/*",
       "package.json"
     ],

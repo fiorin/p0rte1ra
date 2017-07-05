@@ -55,6 +55,14 @@ const Events = new ((function(){
 			});
 			return false
 		});
+		delegate.on('submit','#form-animal-edit',(event) => {
+			event.preventDefault()
+			var animal = Forms.animal.register()
+			Methods.editAnimal({
+				animal: animal
+			});
+			return false
+		});
 	}
 	return __constructor
 })())
