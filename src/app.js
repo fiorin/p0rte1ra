@@ -36,7 +36,6 @@ const Events = new ((function(){
 				data = data[0] && JSON.parse(data[0])
 			else
 				data = JSON.parse(data)
-		console.log(data)
 			Routes[data.route](data)
 		});
 	}

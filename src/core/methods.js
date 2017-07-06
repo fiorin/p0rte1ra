@@ -222,7 +222,7 @@ export const Visuals = new ((function(){
 	function __constructor(){ let self = this }
 	__constructor.prototype.page = {}
 	__constructor.prototype.page.single = (doc) => {
-		let tmpl = Render.templates("./app/templates/animal_single.html")
+		let tmpl = Render.templates("./templates/animal_single.html")
 		let html = tmpl.render(doc)
 		renderString(html,'content')
 	}
@@ -231,7 +231,7 @@ export const Visuals = new ((function(){
 		renderString(html,'content')
 	}
 	__constructor.prototype.page.list = (docs) => {
-		let tmpl = Render.templates("./app/templates/animal_list.html")
+		let tmpl = Render.templates("./templates/animal_list.html")
 		let html = tmpl.render({docs: docs})
 		renderString(html,'content')
 	}
@@ -245,7 +245,7 @@ export const Visuals = new ((function(){
 		let html = ''
 		if(args && args.msg){
 			let msg = args.msg
-			let tmpl = Render.templates("./app/templates/feedback.html")
+			let tmpl = Render.templates("./templates/feedback.html")
 			html = tmpl.render({
 				msg: msg,
 				color: 'success'
@@ -254,21 +254,20 @@ export const Visuals = new ((function(){
 		renderString(html,'feedback')
 	}
 	__constructor.prototype.page.register = (args) => {
-		let tmpl = Render.templates("./app/templates/form_register.html")
+		let tmpl = Render.templates("./templates/form_register.html")
 		let html = tmpl.render({
 			females: args.females
 		})
 		renderString(html,'content')
 	}
 	__constructor.prototype.page.registerChild = (mom) => {
-		let tmpl = Render.templates("./app/templates/form_register_child.html")
+		let tmpl = Render.templates("./templates/form_register_child.html")
 		let html = tmpl.render(mom)
 		renderString(html,'content')
 	}
 	__constructor.prototype.page.edit = (animal) => {
-		let tmpl = Render.templates("./app/templates/form_edit.html")
+		let tmpl = Render.templates("./templates/form_edit.html")
 		let html = tmpl.render(animal)
-		console.log(animal)
 		renderString(html,'content')
 	}
 	return __constructor
@@ -313,7 +312,6 @@ export const Errors = new ((function(){
 
 const getValueOrNullByName = (name) => {
 	var element = document.getElementsByName(name)
-	console.log(element)
 	return (element[0] != undefined) ? element[0].value : null
 }
 
