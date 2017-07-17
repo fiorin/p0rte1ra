@@ -373,8 +373,10 @@ const Forms = new ((function(){
 	function __constructor(){ let self = this; }
 	__constructor.prototype.animal = {};
 	__constructor.prototype.animal.register = () => {
-		let animal,	id, ring, month, year, grade, race, mark, sex, mom;
+		let tp, reg, animal, id, ring, month, year, grade, race, mark, sex, mom, dad;
+		reg   = getValueOrNullByName('reg');
 		ring  = getValueOrNullByName('ring');
+		day   = getValueOrNullByName('day');
 		month = getValueOrNullByName('month');
 		year  = getValueOrNullByName('year');
 		grade = getValueOrNullByName('grade');
@@ -382,9 +384,12 @@ const Forms = new ((function(){
 		mark  = getValueOrNullByName('mark');
 		sex   = getValueOrNullByName('sex');
 		mom   = getValueOrNullByName('mom');
+		dad   = getValueOrNullByName('dad');
 		animal = {
+			reg: reg,
 			ring: ring,
 			born: {
+				day,
 				month: month,
 				year: year
 			},
@@ -392,7 +397,8 @@ const Forms = new ((function(){
 			race: race,
 			mark: mark,
 			sex: sex,
-			mom: mom
+			mom: mom,
+			dad: dad
 		};
 		return animal
 	};
@@ -474,8 +480,6 @@ const Translate = {
 // Here is the starting point for your application code.
 
 // Small helpers you might want to keep
-//import { Methods } from './core/methods';
-// using dom-delegate for event delegate
 let Delegate = require('dom-delegate');
 // using nedb for database storage
 let Datastore = require('nedb');

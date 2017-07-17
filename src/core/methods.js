@@ -276,8 +276,10 @@ export const Forms = new ((function(){
 	function __constructor(){ let self = this }
 	__constructor.prototype.animal = {}
 	__constructor.prototype.animal.register = () => {
-		let animal,	id, ring, month, year, grade, race, mark, sex, mom
+		let tp, reg, animal, id, ring, month, year, grade, race, mark, sex, mom, dad
+		reg   = getValueOrNullByName('reg')
 		ring  = getValueOrNullByName('ring')
+		day   = getValueOrNullByName('day')
 		month = getValueOrNullByName('month')
 		year  = getValueOrNullByName('year')
 		grade = getValueOrNullByName('grade')
@@ -285,9 +287,12 @@ export const Forms = new ((function(){
 		mark  = getValueOrNullByName('mark')
 		sex   = getValueOrNullByName('sex')
 		mom   = getValueOrNullByName('mom')
+		dad   = getValueOrNullByName('dad')
 		animal = {
+			reg: reg,
 			ring: ring,
 			born: {
+				day,
 				month: month,
 				year: year
 			},
@@ -295,7 +300,8 @@ export const Forms = new ((function(){
 			race: race,
 			mark: mark,
 			sex: sex,
-			mom: mom
+			mom: mom,
+			dad: dad
 		}
 		return animal
 	}

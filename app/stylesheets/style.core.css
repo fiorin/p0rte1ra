@@ -98,6 +98,10 @@ form.form .form-cell{
 form.form .form-label{
   padding-bottom:5px;
 }
+form.form .form-label small{
+  font-size:10px;
+  color: #aaa;
+}
 form.form label{
   color: #555;
   font-weight:bold;
