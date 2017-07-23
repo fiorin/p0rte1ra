@@ -122,27 +122,18 @@ Methods.listSons = function(args){
 }
 Methods.prepareRegister = function(){
 	let db = this.db()
-	let args = {
-		sex: '0'
-	}
 	let females,males
-	function test(a,b){
-		console.log('females',a)
-		console.log('males',b)
-	}
-	db.find(args,function(err,docs){
-		females = docs
-		let args = {
-			sex: '1'
-		}
-		db.find(args,function(err,docs){
-			males = docs
-			test(females,males)
+	db.find({sex: '0'},function(err,females){
+		db.find({sex: '1'},function(err,males){
+			Visuals.page.register({
+				females: females,
+				males: males
+			})
 		});
-		//Visuals.page.register({
-		//	females: docs
-		//})
 	});
+}
+Methods.prepareRegisterBull = function(){
+	Visuals.page.registerBull()
 }
 Methods.prepareRegisterChild = function(data){
 	let db = this.db()
@@ -236,27 +227,61 @@ export const Routes = new ((function(){
 
 export const Visuals = new ((function(){
 	function __constructor(){ let self = this }
+	// default page method
 	__constructor.prototype.page = {}
+	// page each animal info
 	__constructor.prototype.page.single = (doc) => {
 		let tmpl = Render.templates("./templates/animal_single.html")
 		let html = tmpl.render(doc)
 		renderString(html,'content')
 	}
+	// page register confirmation
 	__constructor.prototype.page.inserted = (doc) => {
 		let html = 'inserido com sucesso'
 		renderString(html,'content')
 	}
+	// page animal default list
 	__constructor.prototype.page.list = (docs) => {
 		let tmpl = Render.templates("./templates/animal_list.html")
 		let html = tmpl.render({docs: docs})
 		renderString(html,'content')
 	}
+	// page register animal default
+	__constructor.prototype.page.register = (args) => {
+		let tmpl = Render.templates("./templates/form_register.html")
+		let html = tmpl.render({
+			females: args.females,
+			males: args.males
+		})
+		renderString(html,'content')
+	}
+	// page register bull
+	__constructor.prototype.page.registerBull = () => {
+		let tmpl = Render.templates("./templates/form_register_bull.html")
+		let html = tmpl.render({})
+		renderString(html,'content')
+	}
+	// page register animal child direct from single
+	__constructor.prototype.page.registerChild = (mom) => {
+		let tmpl = Render.templates("./templates/form_register_child.html")
+		let html = tmpl.render(mom)
+		renderString(html,'content')
+	}
+	// page edit single animal
+	__constructor.prototype.page.edit = (animal) => {
+		let tmpl = Render.templates("./templates/form_edit.html")
+		let html = tmpl.render(animal)
+		renderString(html,'content')
+	}
+	// default effects method
 	__constructor.prototype.effects = {}
+	// remove item from animal list
 	__constructor.prototype.effects.removeElement = (args) => {
 		let _id = args._id
 		let element = document.getElementById('list-'+_id)
 		element.classList.add("nodisplay")
 	}
+	// show message feedback page top
 	__constructor.prototype.effects.feedback = (args) => {
 		let html = ''
 		if(args && args.msg){
@@ -268,23 +293,6 @@ export const Visuals = new ((function(){
 			})
 		}
 		renderString(html,'feedback')
-	}
-	__constructor.prototype.page.register = (args) => {
-		let tmpl = Render.templates("./templates/form_register.html")
-		let html = tmpl.render({
-			females: args.females
-		})
-		renderString(html,'content')
-	}
-	__constructor.prototype.page.registerChild = (mom) => {
-		let tmpl = Render.templates("./templates/form_register_child.html")
-		let html = tmpl.render(mom)
-		renderString(html,'content')
-	}
-	__constructor.prototype.page.edit = (animal) => {
-		let tmpl = Render.templates("./templates/form_edit.html")
-		let html = tmpl.render(animal)
-		renderString(html,'content')
 	}
 	return __constructor
 })())
@@ -334,7 +342,9 @@ export const Forms = new ((function(){
 		mom   = getValueOrNullByName('mom')
 		dad   = getValueOrNullByName('dad')
 		color = getValueOrNullByName('color')
+		name  = getValueOrNullByName('name')
 		bull = {
+			name: name,
 			reg: reg,
 			ring: ring,
 			grade: grade,
