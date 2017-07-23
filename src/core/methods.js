@@ -125,10 +125,23 @@ Methods.prepareRegister = function(){
 	let args = {
 		sex: '0'
 	}
+	let females,males
+	function test(a,b){
+		console.log('females',a)
+		console.log('males',b)
+	}
 	db.find(args,function(err,docs){
-		Visuals.page.register({
-			females: docs
-		})
+		females = docs
+		let args = {
+			sex: '1'
+		}
+		db.find(args,function(err,docs){
+			males = docs
+			test(females,males)
+		});
+		//Visuals.page.register({
+		//	females: docs
+		//})
 	});
 }
 Methods.prepareRegisterChild = function(data){
@@ -182,6 +195,9 @@ export const Routes = new ((function(){
 	}
 	__constructor.prototype.register = function(){
 		Methods.prepareRegister()
+	}
+	__constructor.prototype.registerBull = function(){
+		Methods.prepareRegisterBull()
 	}
 	__constructor.prototype.registerChild = function(data){
 		Visuals.effects.feedback()
@@ -272,11 +288,12 @@ export const Visuals = new ((function(){
 	}
 	return __constructor
 })())
+
 export const Forms = new ((function(){
 	function __constructor(){ let self = this }
 	__constructor.prototype.animal = {}
 	__constructor.prototype.animal.register = () => {
-		let tp, reg, animal, id, ring, month, year, grade, race, mark, sex, mom, dad
+		let tp, reg, animal, id, ring, month, year, grade, race, mark, sex, mom, dad, color
 		reg   = getValueOrNullByName('reg')
 		ring  = getValueOrNullByName('ring')
 		day   = getValueOrNullByName('day')
@@ -288,11 +305,12 @@ export const Forms = new ((function(){
 		sex   = getValueOrNullByName('sex')
 		mom   = getValueOrNullByName('mom')
 		dad   = getValueOrNullByName('dad')
+		color = getValueOrNullByName('color')
 		animal = {
 			reg: reg,
 			ring: ring,
 			born: {
-				day,
+				day: day,
 				month: month,
 				year: year
 			},
@@ -301,9 +319,33 @@ export const Forms = new ((function(){
 			mark: mark,
 			sex: sex,
 			mom: mom,
-			dad: dad
+			dad: dad,
+			color: color
 		}
 		return animal
+	}
+	__constructor.prototype.animal.registerBull = () => {
+		let reg, bull, id, ring, grade, race, mark, sex, mom, dad, color
+		reg   = getValueOrNullByName('reg')
+		ring  = getValueOrNullByName('ring')
+		grade = getValueOrNullByName('grade')
+		race  = getValueOrNullByName('race')
+		mark  = getValueOrNullByName('mark')
+		mom   = getValueOrNullByName('mom')
+		dad   = getValueOrNullByName('dad')
+		color = getValueOrNullByName('color')
+		bull = {
+			reg: reg,
+			ring: ring,
+			grade: grade,
+			race: race,
+			mark: mark,
+			sex: 2,
+			mom: mom,
+			dad: dad,
+			color: color
+		}
+		return bull
 	}
 	return __constructor
 })())
