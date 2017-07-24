@@ -45,9 +45,9 @@ const Events = new ((function(){
 		delegate.on('click','input',(event) => {
 
 		});
-		delegate.on('submit','#form-animal',(event) => {
+		delegate.on('submit','#form-animal',function(event){
 			event.preventDefault()
-			var animal = Forms.animal.register()
+			var animal = Forms.animal.register(this)
 			animal.status = 'ok'
 			Methods.insertAnimal({
 				animal: animal

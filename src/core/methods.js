@@ -300,62 +300,16 @@ export const Visuals = new ((function(){
 export const Forms = new ((function(){
 	function __constructor(){ let self = this }
 	__constructor.prototype.animal = {}
-	__constructor.prototype.animal.register = () => {
-		let tp, reg, animal, id, ring, month, year, grade, race, mark, sex, mom, dad, color
-		reg   = getValueOrNullByName('reg')
-		ring  = getValueOrNullByName('ring')
-		day   = getValueOrNullByName('day')
-		month = getValueOrNullByName('month')
-		year  = getValueOrNullByName('year')
-		grade = getValueOrNullByName('grade')
-		race  = getValueOrNullByName('race')
-		mark  = getValueOrNullByName('mark')
-		sex   = getValueOrNullByName('sex')
-		mom   = getValueOrNullByName('mom')
-		dad   = getValueOrNullByName('dad')
-		color = getValueOrNullByName('color')
-		animal = {
-			reg: reg,
-			ring: ring,
-			born: {
-				day: day,
-				month: month,
-				year: year
-			},
-			grade: grade,
-			race: race,
-			mark: mark,
-			sex: sex,
-			mom: mom,
-			dad: dad,
-			color: color
+	__constructor.prototype.animal.register = (form) => {
+		let fields = ['reg','id','ring','month','year','grade','race','mark','sex','mom','dad','color'] 
+		let animal = {}
+		let eachElement = (element, index, array) => {
+		    if(form[element] != undefined){
+		    	animal[element] = form[element].value
+		    }
 		}
+		fields.forEach(eachElement)
 		return animal
-	}
-	__constructor.prototype.animal.registerBull = () => {
-		let reg, bull, id, ring, grade, race, mark, sex, mom, dad, color
-		reg   = getValueOrNullByName('reg')
-		ring  = getValueOrNullByName('ring')
-		grade = getValueOrNullByName('grade')
-		race  = getValueOrNullByName('race')
-		mark  = getValueOrNullByName('mark')
-		mom   = getValueOrNullByName('mom')
-		dad   = getValueOrNullByName('dad')
-		color = getValueOrNullByName('color')
-		name  = getValueOrNullByName('name')
-		bull = {
-			name: name,
-			reg: reg,
-			ring: ring,
-			grade: grade,
-			race: race,
-			mark: mark,
-			sex: 2,
-			mom: mom,
-			dad: dad,
-			color: color
-		}
-		return bull
 	}
 	return __constructor
 })())

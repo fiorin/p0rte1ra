@@ -397,62 +397,16 @@ const Visuals = new ((function(){
 const Forms = new ((function(){
 	function __constructor(){ let self = this; }
 	__constructor.prototype.animal = {};
-	__constructor.prototype.animal.register = () => {
-		let tp, reg, animal, id, ring, month, year, grade, race, mark, sex, mom, dad, color;
-		reg   = getValueOrNullByName('reg');
-		ring  = getValueOrNullByName('ring');
-		day   = getValueOrNullByName('day');
-		month = getValueOrNullByName('month');
-		year  = getValueOrNullByName('year');
-		grade = getValueOrNullByName('grade');
-		race  = getValueOrNullByName('race');
-		mark  = getValueOrNullByName('mark');
-		sex   = getValueOrNullByName('sex');
-		mom   = getValueOrNullByName('mom');
-		dad   = getValueOrNullByName('dad');
-		color = getValueOrNullByName('color');
-		animal = {
-			reg: reg,
-			ring: ring,
-			born: {
-				day: day,
-				month: month,
-				year: year
-			},
-			grade: grade,
-			race: race,
-			mark: mark,
-			sex: sex,
-			mom: mom,
-			dad: dad,
-			color: color
+	__constructor.prototype.animal.register = (form) => {
+		let fields = ['reg','id','ring','month','year','grade','race','mark','sex','mom','dad','color']; 
+		let animal = {};
+		let eachElement = (element, index, array) => {
+		    if(form[element] != undefined){
+		    	animal[element] = form[element].value;
+		    }
 		};
+		fields.forEach(eachElement);
 		return animal
-	};
-	__constructor.prototype.animal.registerBull = () => {
-		let reg, bull, id, ring, grade, race, mark, sex, mom, dad, color;
-		reg   = getValueOrNullByName('reg');
-		ring  = getValueOrNullByName('ring');
-		grade = getValueOrNullByName('grade');
-		race  = getValueOrNullByName('race');
-		mark  = getValueOrNullByName('mark');
-		mom   = getValueOrNullByName('mom');
-		dad   = getValueOrNullByName('dad');
-		color = getValueOrNullByName('color');
-		name  = getValueOrNullByName('name');
-		bull = {
-			name: name,
-			reg: reg,
-			ring: ring,
-			grade: grade,
-			race: race,
-			mark: mark,
-			sex: 2,
-			mom: mom,
-			dad: dad,
-			color: color
-		};
-		return bull
 	};
 	return __constructor
 })());
@@ -464,11 +418,6 @@ const Errors = new ((function(){
 	};
 	return __constructor
 })());
-
-const getValueOrNullByName = (name) => {
-	var element = document.getElementsByName(name);
-	return (element[0] != undefined) ? element[0].value : null
-};
 
 const renderString = (contentHtmlAsString,targetElementId) => {
 	var element = document.getElementById(targetElementId);
@@ -532,8 +481,6 @@ const Translate = {
 // Here is the starting point for your application code.
 
 // Small helpers you might want to keep
-//import { Methods } from './core/methods';
-// using dom-delegate for event delegate
 let Delegate = require('dom-delegate');
 // using nedb for database storage
 let Datastore = require('nedb');
@@ -567,9 +514,9 @@ const Events = new ((function(){
 		delegate.on('click','input',(event) => {
 
 		});
-		delegate.on('submit','#form-animal',(event) => {
+		delegate.on('submit','#form-animal',function(event){
 			event.preventDefault();
-			var animal = Forms.animal.register();
+			var animal = Forms.animal.register(this);
 			animal.status = 'ok';
 			Methods.insertAnimal({
 				animal: animal
