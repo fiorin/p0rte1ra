@@ -1,0 +1,195 @@
+<div id="single" class="clearfix margin-bottom">
+	<div class="col-7 clearfix col-main">
+		<div class="single-info clearfix">
+			<div class="single-ring float-left">
+				<div class="single-badge">
+					<i class="fa fa-tag"></i> {{:ring}}
+				</div>
+			</div>
+			<ul class="float-left">
+				{{if _dead}}
+					<li>
+						<i class="fa fa-ban"></i>
+					</li>
+				{{/if}}
+				{{if _trash}}
+					<li>
+						<i class="fa fa-trash"></i>
+					</li>
+				{{/if}}
+				{{if _problem}}
+					<li>
+						<i class="fa fa-bomb"></i>
+					</li>
+				{{/if}}
+			</ul>
+		</div>
+		<div class="clear-both single-data">
+			<h5 class="margin-bottom"><b><span class="sex-{{:sex}}">{{if sex == 1}}<i class="fa fa-mars"></i>{{else}}<i class="fa fa-venus"></i>{{/if}}</span></b> {{:translate.race}} <small>({{:translate.grade}})</small></h5>
+			{{if age}}
+				<p>{{:age}}</p>
+			{{/if}}
+			<h6>nascimento</h6>
+			<p><i class="fa fa-calendar"></i> <b>{{:born.month}}/{{:born.year}}</b></p>
+		</div>
+	</div>
+	<div class="col-3 col-lateral">
+		<div class="single-photo margin-bottom">
+			<img src="./images/{{:race}}.jpg" alt="" class="display-block width-full">
+		</div>
+		<div class="single-options">
+			<table class="table width-full">
+				<thead>
+					<tr>
+						<th>Opções</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="text-bold">
+							<a href="#" data-args='{"route":"single","_id":"{{:_id}}"}' class="link"><i class="fa fa-search "></i> Visualizar</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<div id="register">
+	<p>Altere os dados abaixo e confirme para editar o animal</p>
+	<form action="/" id="form-animal-edit" class="form">
+		<div class="col-2 form-cell">
+			<div class="col-10 form-label">
+				<label for="form-animal-ring">Brinco</label>
+			</div>
+			<div class="col-10 clearfix">
+				<input type="text" name="ring" value="{{:ring}}" id="form-animal-ring" class="col-10">
+			</div>
+		</div>
+		<div class="col-3 form-cell">
+			<div class="col-10 form-label">
+				<label for="form-animal-sex">Sexo</label>
+			</div>
+			<div class="col-10 clearfix font-28">
+				<b><span class="sex-{{:sex}}">{{if sex == 1}}<i class="fa fa-mars"></i>{{else}}<i class="fa fa-venus"></i>{{/if}}</span></b> 
+			</div>
+		</div>
+		<div class="col-5 form-cell">
+			<div class="col-10 form-label">
+				<label for="form-animal-mark">Marca</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="mark" id="form-animal-mark" class="col-10">
+					<option value="{{:mark}}" selected="selected">{{:mark}}</option>
+					<option value="luciano">Luciano</option>
+					<option value="jr">Luciano Jr</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-2 form-cell clear-both">
+			<div class="col-10 form-label">
+				<label for="form-animal-month">Mês</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="month" id="form-animal-month" class="col-10">
+					<option value="{{:born.month}}" selected="selected">{{:born.month}}</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-3 form-cell">
+			<div class="col-10 form-label">
+				<label for="form-animal-year">Ano</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="year" id="form-animal-year" class="col-10">
+					<option value="{{:born.year}}" selected="selected">{{:born.year}}</option>
+					<option value="2017">2017</option>
+					<option value="2016">2016</option>
+					<option value="2015">2015</option>
+					<option value="2014">2014</option>
+					<option value="2013">2013</option>
+					<option value="2012">2012</option>
+					<option value="2011">2011</option>
+					<option value="2010">2010</option>
+					<option value="2010">2010</option>
+					<option value="2009">2009</option>
+					<option value="2009">2009</option>
+					<option value="2008">2008</option>
+					<option value="2007">2007</option>
+					<option value="2006">2006</option>
+					<option value="2005">2005</option>
+					<option value="2004">2004</option>
+					<option value="2003">2003</option>
+					<option value="2002">2002</option>
+					<option value="2001">2001</option>
+					<option value="2000">2000</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-5 form-cell">
+			<div class="col-10 form-label">
+				<label for="form-animal-mom">Filiação</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="mom" id="form-animal-mom" class="col-10">
+					<option value="" selected="selected">Desconhecido</option>
+					{{for females}}
+						<option value="{{:_id}}" selected="selected">{{:ring}}</option>
+					{{/for}}
+				</select>
+			</div>
+		</div>
+		<div class="col-3 form-cell clear-both">
+			<div class="col-10 form-label">
+				<label for="form-animal-race">Raça</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="race" id="form-animal-race" class="col-10">
+					<option value="{{:race}}" selected="selected">{{:translate.race}}</option>
+					<option value="cruzado">Cruzado</option>
+					<option value="brangus">Brangus</option>
+					<option value="nelore">Nelore</option>
+					<option value="angus">Angus</option>
+					<option value="limousin">Limousin</option>
+					<option value="gir">Gir</option>
+					<option value="simmental">Simmental</option>
+					<option value="holandesa">Holandes</option>
+					<option value="hereford">Hereford</option>
+					<option value="brahman">Brahman</option>
+					<option value="outros">Outros</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-2 form-cell">
+			<div class="col-10 form-label">
+				<label for="form-animal-grade">Grau</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="grade" id="form-animal-grade" class="col-10">
+					<option value="{{:grade}}">{{:translate.grade}}</option>
+					<option value="1">Puro</option>
+					<option value="38">3/8</option>
+					<option value="18">1/8</option>
+					<option value="34">3/4</option>
+					<option value="14">1/4</option>
+					<option value="12">1/2</option>
+				</select>
+			</div>
+		</div>
+		<div class="clear-both text-right">
+			<input type="submit" value="Alterar">
+		</div>
+	</form>
+</div>
