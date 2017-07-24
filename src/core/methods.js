@@ -299,7 +299,9 @@ export const Visuals = new ((function(){
 
 export const Forms = new ((function(){
 	function __constructor(){ let self = this }
+	// default method form based 
 	__constructor.prototype.animal = {}
+	// mount animal object based on form
 	__constructor.prototype.animal.register = (form) => {
 		let fields = ['reg','id','ring','month','year','grade','race','mark','sex','mom','dad','color'] 
 		let animal = {}
@@ -347,7 +349,8 @@ const Translate = {
 	},
 	sex: {
 		0: 'F',
-		1: 'M'
+		1: 'M',
+		2: 'M'
 	},
 	race: {
 		cruzado:  'Cruzado',
