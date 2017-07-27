@@ -28,10 +28,10 @@ const Events = new ((function(){
 	}
 	__constructor.prototype.links = () => {
 		let delegate = new Delegate(document);
-		delegate.on('click','.link',(event) => {
+		delegate.on('click','.link',function(event){
 			event.preventDefault()
-			let target = event.target
-			let data = target.getAttribute('data-args') || null;
+			//let target = event.target
+			let data = this.dataset.args || null;
 			if(Array.isArray(data))
 				data = data[0] && JSON.parse(data[0])
 			else

@@ -2,30 +2,59 @@
 	<table class="table width-full">
 		<thead>
 			<tr>
-				<th>Cor</th>
-				<th>Brinco</th>
+				<th></th>
+				<th>Tatuagem</th>
 				<th>Sexo</th>
-				<th>Marca</th>
-				<th>Raça</th>
 				<th>Nascimento</th>
-				<th>Ações</th>
+				<th>Pelagem</th>
+				<th>Grau</th>
+				<th>Pai</th>
+				<th>Mãe</th>
 			</tr>
 		</thead>
 		<tbody>
 			{{for docs}} 
-				<tr id="list-{{:_id}}">
-					<td class="text-bold"><i class="fa fa-tag"></i></td>
+				<tr id='list-{{:_id}}' class='link' data-args='{"route":"single","_id":"{{:_id}}"}'>
+					<td class="text-bold"><i class="fa fa-tag tag-{{:tag}}"></i></td>
 					<td class="text-bold">{{:ring}}</td>
 					<td class="text-bold text-center">
 						<span class="sex-{{:sex}}">{{if sex == 0}}<i class="fa fa-venus"></i>{{else}}<i class="fa fa-mars"></i>{{/if}}</span>
 					</td>
-					<td class="text-center">{{:mark}}</td>
-					<td class="text-center">{{:race}}</td>
 					<td class="text-center">{{:month}}/{{:year}}</td>
-					<td class="text-center">
-						<a href="#" data-args='{"route":"single","_id":"{{:_id}}"}' class="link fa fa-search"></a>
-						<a href="#" data-args='{"route":"sell","_id":"{{:_id}}","stay":true}' class="link fa fa-usd"></a>
-					</td>
+					<td class="text-center">{{:translated.color}}</td>
+					<td class="text-center">{{:translated.grade}}</td>
+					{{if dad}}
+						<td class="text-center"><i class="fa fa-check-square-o" aria-hidden="true"></i></td>
+						<!--
+						<td class="text-center">
+							<table>
+								<tr>
+									<td>{{:dad.ring}}</td>
+									<td>{{:dad.grade}}</td>
+									<td>{{:dad.reg}}</td>
+								</tr>
+							</table>
+						</td>
+						-->
+					{{else}}
+						<td class="text-center"><i class="fa fa-square-o" aria-hidden="true"></i></td>
+					{{/if}}
+					{{if mom}}
+						<td class="text-center"><i class="fa fa-check-square-o" aria-hidden="true"></i></td>
+						<!--
+						<td class="text-center">
+							<table>
+								<tr>
+									<td>{{:mom.ring}}</td>
+									<td>{{:mom.grade}}</td>
+									<td>{{:mom.reg}}</td>
+								</tr>
+							</table>
+						</td>
+						-->
+					{{else}}
+						<td class="text-center"><i class="fa fa-square-o" aria-hidden="true"></i></td>
+					{{/if}}
 				</tr>
 			{{else}}
 				<tr>

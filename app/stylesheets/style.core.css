@@ -18,6 +18,9 @@ a:hover{
 .font-28{
   font-size:28px;
 }
+tr.link{
+  cursor:pointer;
+}
 body {
   font-family: sans-serif;
   color: #525252;

@@ -143,12 +143,7 @@ Methods.openAnimal = function(data){
 	db.findOne(args,(err,doc) => {
 		let animal = doc;
 		if(animal._id){
-			var translated = {
-				sex:   translate(animal.sex,'sex'),
-				race:  translate(animal.race,'race'),
-				grade: translate(animal.grade,'grade')
-			};
-			animal.translate = translated;
+			animal = translate(animal);
 			if(animal.mom){
 				let args = {
 					_id: animal.mom
@@ -161,7 +156,6 @@ Methods.openAnimal = function(data){
 						mom: animal._id
 					};
 					db.find(args,(err,docs) => {
-						Visuals.page.list(docs);
 						if(docs.length){
 							animal.sons = docs;
 						}
@@ -173,7 +167,6 @@ Methods.openAnimal = function(data){
 					mom: animal._id
 				};
 				db.find(args,(err,docs) => {
-					Visuals.page.list(docs);
 					if(docs.length){
 						animal.sons = docs;
 					}
@@ -190,6 +183,10 @@ Methods.listAnimal = function(args){
 	if(args == undefined)
 		args = {}; 
 	db.find(args,(err,docs) => {
+		let eachAnimal = (element, index, array) => {
+		    element = translate(element);
+		};
+		docs.forEach(eachAnimal);
 		Visuals.page.list(docs);
 	});
 };
@@ -238,12 +235,7 @@ Methods.prepareRegisterChild = function(data){
 		_id: data._id
 	};
 	db.findOne(args,(err,doc) => {
-		var translated = {
-			sex:   translate(doc.sex,'sex'),
-			race:  translate(doc.race,'race'),
-			grade: translate(doc.grade,'grade')
-		};
-		doc.translate = translated;
+		doc = translate(doc);
 		Visuals.page.registerChild(doc);
 	});
 };
@@ -253,12 +245,7 @@ Methods.prepareEdit = function(data){
 		_id: data._id
 	};
 	db.findOne(args,(err,doc) => {
-		var translated = {
-			sex:   translate(doc.sex,'sex'),
-			race:  translate(doc.race,'race'),
-			grade: translate(doc.grade,'grade')
-		};
-		doc.translate = translated;
+		doc = translate(doc);
 		Visuals.page.edit(doc);
 	});
 };
@@ -400,7 +387,7 @@ const Forms = new ((function(){
 	__constructor.prototype.animal = {};
 	// mount animal object based on form
 	__constructor.prototype.animal.register = (form) => {
-		let fields = ['reg','id','ring','month','year','grade','race','mark','sex','mom','dad','color']; 
+		let fields = ['reg','id','ring','month','year','grade','race','mark','sex','mom','dad','color','name']; 
 		let animal = {};
 		let eachElement = (element, index, array) => {
 		    if(form[element] != undefined){
@@ -425,14 +412,22 @@ const renderString = (contentHtmlAsString,targetElementId) => {
 	var element = document.getElementById(targetElementId);
 	element.innerHTML = contentHtmlAsString;
 };
-
-const translate = (value,section) => {
-	if(!value || value == undefined) return false 
-	if(!section) section = 'all';
-	if(Translate[section] != undefined && Translate[section][value] != undefined)
-		return Translate[section][value]
+ 
+const translate = (object) => {
+	if(object != undefined)
+		object.translated = {};
 	else
-		return value
+		return {}
+	console.log(object);
+	let property;
+	for(property in object){
+		let value = object[property];
+		if(Translate[property] != undefined && Translate[property][value] != undefined)
+			object.translated[property] = Translate[property][value];
+		else
+			object.translated[property] = value;
+	}
+	return object
 };
 
 const Translate = {
@@ -478,6 +473,11 @@ const Translate = {
 		10: 'Outubro',
 		11: 'Novembro',
 		12: 'Dezembro'
+	},
+	color: {
+		branco: 'Branca',
+		preto: 'Preta',
+		vermelho: 'Vermelho'
 	}
 };
 
@@ -502,10 +502,10 @@ const Events = new ((function(){
 	}
 	__constructor.prototype.links = () => {
 		let delegate = new Delegate(document);
-		delegate.on('click','.link',(event) => {
+		delegate.on('click','.link',function(event){
 			event.preventDefault();
-			let target = event.target;
-			let data = target.getAttribute('data-args') || null;
+			//let target = event.target
+			let data = this.dataset.args || null;
 			if(Array.isArray(data))
 				data = data[0] && JSON.parse(data[0]);
 			else
