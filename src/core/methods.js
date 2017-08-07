@@ -84,7 +84,7 @@ Methods.openAnimal = function(data){
 Methods.listAnimal = function(args){
 	let db = this.db()
 	if(args == undefined)
-		args = {} 
+		args = {}
 	db.find(args,(err,docs) => {
 		let eachAnimal = (element, index, array) => {
 		    element = translate(element)
@@ -184,9 +184,7 @@ export const Routes = new ((function(){
 	__constructor.prototype.list = function(data){
 		Visuals.effects.feedback()
 		Config.route = 'list'
-		let args = {
-			status: data.status
-		}
+		let args = data.filter
 		Methods.listAnimal(args)
 	}
 	__constructor.prototype.inserted = function(doc){
@@ -326,7 +324,6 @@ const translate = (object) => {
 		object.translated = {}
 	else
 		return {}
-	console.log(object)
 	let property
 	for(property in object){
 		let value = object[property]

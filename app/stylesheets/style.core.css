@@ -68,6 +68,11 @@ body #side ul li a:hover{
   background: #d3d3d3;
   color:#333;
 }
+body #side ul li.divider{
+  height:0;
+  padding:0;
+  border-bottom:1px solid #ddd;
+}
 body #main{
   margin-left:30%;
   font-size:12px;

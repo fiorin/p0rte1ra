@@ -29,16 +29,20 @@
 						Listar
 					</li>
 					<li>
-						<a href="#" data-args='{"route":"list","status":"ok"}' class="link">Listar animais</a>
+						<a href="#" data-args='{"route":"list","filter":{"status":"ok","sex":{"$ne":"2"}}}' class="link">Listar animais</a>
 					</li>
 					<li>
-						<a href="#" data-args='{"route":"list","status":"ok"}' class="link">Listar touros</a>
+						<a href="#" data-args='{"route":"list","filter":{"status":"ok","sex":"2"}}' class="link">Listar touros</a>
 					</li>
 					<li>
-						<a href="#" data-args='{"route":"list","status":"kill"}' class="link">Listar baixas</a>
+						<a href="#" data-args='{"route":"list","filter":{"status":"kill"}}' class="link">Listar baixas</a>
 					</li>
 					<li>
-						<a href="#" data-args='{"route":"list","status":"sold"}' class="link">Listar vendas</a>
+						<a href="#" data-args='{"route":"list","filter":{"status":"sold"}}' class="link">Listar vendas</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#" data-args='{"route":"list","filter":{"status":"trash"}}' class="link"><i class="fa fa-trash"></i> Lixeixa</a>
 					</li>
 				</ul>
 			</div>
