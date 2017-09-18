@@ -288,7 +288,7 @@ export const Forms = new ((function(){
 	__constructor.prototype.animal = {}
 	// mount animal object based on form
 	__constructor.prototype.animal.register = (form) => {
-		let fields = ['reg','id','ring','month','year','grade','race','mark','sex','mom','dad','color','name'] 
+		let fields = ['reg','id','ring','day','month','year','grade','race','mark','sex','mom','dad','color','name'] 
 		let animal = {}
 		let eachElement = (element, index, array) => {
 		    if(form[element] != undefined){

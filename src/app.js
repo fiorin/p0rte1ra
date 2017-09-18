@@ -49,6 +49,7 @@ const Events = new ((function(){
 			event.preventDefault()
 			var animal = Forms.animal.register(this)
 			animal.status = 'ok'
+			console.log(animal)
 			Methods.insertAnimal({
 				animal: animal
 			});
