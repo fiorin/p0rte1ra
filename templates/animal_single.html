@@ -26,36 +26,51 @@
 		</div>
 		<div class="clear-both single-data">
 			<h5 class="margin-bottom"><b><span class="sex-{{:sex}}">{{if sex == 0}}<i class="fa fa-venus"></i>{{else}}<i class="fa fa-mars"></i>{{/if}}</span></b> {{:translated.race}} <small>({{:translated.grade}})</small></h5>
-			{{if age}}
-				<p>{{:age}}</p>
+			{{if sex != 2}}
+				{{if age}}
+					<p>{{:age}}</p>
+				{{/if}}
+				<h6>nascimento</h6>
+				<p><i class="fa fa-calendar"></i> <b>{{:month}}/{{:year}}</b></p>
 			{{/if}}
-			<h6>nascimento</h6>
-			<p><i class="fa fa-calendar"></i> <b>{{:month}}/{{:year}}</b></p>
 			<hr>
 			{{if mom}}
 				<div class="single-mom">
 					<h6>Mãe</h6>
 					<table class="table width-full">
-						<thead>
-							<tr>
-								<th>Cor</th>
-								<th>Brinco</th>
-								<th>Marca</th>
-								<th>Nascimento</th>
-								<th>Ações</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr id="list-{{:_id}}">
-								<td class="text-bold"><i class="fa fa-tag"></i></td>
-								<td class="text-bold">{{:mom.ring}}</td>
-								<td class="text-center">{{:mom.mark}}</td>
-								<td class="text-center">{{:mom.month}}/{{:mom.year}}</td>
-								<td class="text-center">
-									<a href="#" data-args='{"route":"single","_id":"{{:mom._id}}"}' class="link fa fa-search"></a>
-								</td>
-							</tr>
-						</tbody>
+						{{if mom._id}}
+							<thead>
+								<tr>
+									<th>Cor</th>
+									<th>Brinco</th>
+									<th>Marca</th>
+									<th>Nascimento</th>
+									<th>Ações</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="list-{{:_id}}">
+									<td class="text-bold"><i class="fa fa-tag"></i></td>
+									<td class="text-bold">{{:mom.ring}}</td>
+									<td class="text-center">{{:mom.mark}}</td>
+									<td class="text-center">{{:mom.month}}/{{:mom.year}}</td>
+									<td class="text-center">
+										<a href="#" data-args='{"route":"single","_id":"{{:mom._id}}"}' class="link fa fa-search"></a>
+									</td>
+								</tr>
+							</tbody>
+						{{else}}
+							<thead>
+								<tr>
+									<th>Nome</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{{:mom}}</td>
+								</tr>
+							</tbody>
+						{{/if}}
 					</table>
 				</div>
 			{{/if}}
@@ -63,26 +78,37 @@
 				<div class="single-mom">
 					<h6>Pai</h6>
 					<table class="table width-full">
-						<thead>
-							<tr>
-								<th>Cor</th>
-								<th>Brinco</th>
-								<th>Marca</th>
-								<th>Nascimento</th>
-								<th>Ações</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr id="list-{{:_id}}">
-								<td class="text-bold"><i class="fa fa-tag"></i></td>
-								<td class="text-bold">{{:dad.ring}}</td>
-								<td class="text-center">{{:dad.mark}}</td>
-								<td class="text-center">{{:dad.month}}/{{:dad.year}}</td>
-								<td class="text-center">
-									<a href="#" data-args='{"route":"single","_id":"{{:mom._id}}"}' class="link fa fa-search"></a>
-								</td>
-							</tr>
-						</tbody>
+						{{if dad._id}}
+							<thead>
+								<tr>
+									<th>Cor</th>
+									<th>Brinco</th>
+									<th>Marca</th>
+									<th>Ações</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="list-{{:_id}}">
+									<td class="text-bold"><i class="fa fa-tag"></i></td>
+									<td class="text-bold">{{:dad.ring}}</td>
+									<td class="text-center">{{:dad.mark}}</td>
+									<td class="text-center">
+										<a href="#" data-args='{"route":"single","_id":"{{:mom._id}}"}' class="link fa fa-search"></a>
+									</td>
+								</tr>
+							</tbody>
+						{{else}}
+							<thead>
+								<tr>
+									<th>Nome</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{{:dad}}</td>
+								</tr>
+							</tbody>
+						{{/if}}
 					</table>
 				</div>
 			{{/if}}

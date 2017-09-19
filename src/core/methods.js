@@ -107,7 +107,7 @@ Methods.removeAnimal = function(data){
 		})
 	}else{
 		db.remove(args,(err,doc) => {
-			Routes.list()
+			Routes.home()
 		})
 	}
 }
@@ -121,7 +121,7 @@ Methods.prepareRegister = function(){
 	let db = this.db()
 	let females,males
 	db.find({sex: '0'},function(err,females){
-		db.find({sex: '1'},function(err,males){
+		db.find({sex: '2'},function(err,males){
 			Visuals.page.register({
 				females: females,
 				males: males
@@ -159,14 +159,39 @@ Methods.killAnimal = function(data){
 	}
 	db.update(
 		args,{$set: {status: 'kill'}},{},
-		function(){
-
+		(err,doc) => {
+			var args = {filter:{status:"kill"}};
+			Routes.list(args)
+			let _id = doc._id
+			Visuals.effects.feedback({
+				msg: "Registro marcado como abatido"
+			})
+		}
+	)
+}
+Methods.sellAnimal = function(data){
+	let db = this.db()
+	let args = {
+		_id: data._id
+	}
+	db.update(
+		args,{$set: {status: 'sold'}},{},
+		(err,doc) => {
+			var args = {filter:{status:"sold"}};
+			Routes.list(args)
+			let _id = doc._id
+			Visuals.effects.feedback({
+				msg: "Registro marcado como vendido"
+			})
 		}
 	)
 }
 
 export const Routes = new ((function(){
 	function __constructor(){ let self = this }
+	__constructor.prototype.home = function(){
+		Visuals.page.home()
+	}
 	__constructor.prototype.single = function(data){
 		let _id = data._id
 		Methods.openAnimal(data)
@@ -204,6 +229,12 @@ export const Routes = new ((function(){
 			_id: _id,
 		})
 	}
+	__constructor.prototype.sell = function(data){
+		let _id = data._id
+		Methods.sellAnimal({
+			_id: _id,
+		})
+	}
 	__constructor.prototype.edit = function(data){
 		Methods.prepareEdit(data)
 	}
@@ -214,6 +245,12 @@ export const Visuals = new ((function(){
 	function __constructor(){ let self = this }
 	// default page method
 	__constructor.prototype.page = {}
+	// page home
+	__constructor.prototype.page.home = () => {
+		let tmpl = Render.templates("./templates/home.html")
+		let html = tmpl.render()
+		renderString(html,'content')
+	}
 	// page each animal info
 	__constructor.prototype.page.single = (doc) => {
 		let tmpl = Render.templates("./templates/animal_single.html")
