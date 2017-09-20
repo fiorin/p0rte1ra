@@ -110,6 +110,30 @@ const Methods = new ((function(){
 			return getDb()
 		setDb(db);
 	};
+	__constructor.prototype.listBull = function(args){
+		let db = this.db();
+		if(args == undefined)
+			args = {};
+		db.find(args,(err,docs) => {
+			let eachAnimal = (element, index, array) => {
+			    element = translate(element);
+			};
+			docs.forEach(eachAnimal);
+			Visuals.page.listBull(docs);
+		});
+	};
+	__constructor.prototype.listSell = function(args){
+		let db = this.db();
+		if(args == undefined)
+			args = {};
+		db.find(args,(err,docs) => {
+			let eachAnimal = (element, index, array) => {
+			    element = translate(element);
+			};
+			docs.forEach(eachAnimal);
+			Visuals.page.listSell(docs);
+		});
+	};
 	return __constructor
 })());
 Methods.insertAnimal = function(data){
@@ -309,6 +333,18 @@ const Routes = new ((function(){
 		let args = data.filter;
 		Methods.listAnimal(args);
 	};
+	__constructor.prototype.listBull = function(data){
+		Visuals.effects.feedback();
+		Config.route = 'listBull';
+		let args = data.filter;
+		Methods.listBull(args);
+	};
+	__constructor.prototype.listSell = function(data){
+		Visuals.effects.feedback();
+		Config.route = 'listSell';
+		let args = data.filter;
+		Methods.listSell(args);
+	};
 	__constructor.prototype.inserted = function(doc){
 		Visuals.page.inserted(doc);
 	};
@@ -362,6 +398,18 @@ const Visuals = new ((function(){
 	// page animal default list
 	__constructor.prototype.page.list = (docs) => {
 		let tmpl = Render.templates("./templates/animal_list.html");
+		let html = tmpl.render({docs: docs});
+		renderString(html,'content');
+	};
+	// page bull default list
+	__constructor.prototype.page.listBull = (docs) => {
+		let tmpl = Render.templates("./templates/list_bull.html");
+		let html = tmpl.render({docs: docs});
+		renderString(html,'content');
+	};
+	// page bull default list
+	__constructor.prototype.page.listSell = (docs) => {
+		let tmpl = Render.templates("./templates/list_sell.html");
 		let html = tmpl.render({docs: docs});
 		renderString(html,'content');
 	};
@@ -518,8 +566,6 @@ const Translate = {
 // Here is the starting point for your application code.
 
 // Small helpers you might want to keep
-//import { Methods } from './core/methods';
-// using dom-delegate for event delegate
 let Delegate = require('dom-delegate');
 // using nedb for database storage
 let Datastore = require('nedb');
