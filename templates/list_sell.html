@@ -1,0 +1,44 @@
+<div id="list">
+	<table class="table width-full">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Tatuagem</th>
+				<th>Sexo</th>
+				<th>Nascimento</th>
+				<th>Pelagem</th>
+				<th>Grau</th>
+				<th>$</th>
+				<th>Data</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{for docs}} 
+				<tr id='list-{{:_id}}' class='link' data-args='{"route":"single","_id":"{{:_id}}"}'>
+					<td class="text-bold"><i class="fa fa-tag tag-{{:tag}}"></i></td>
+					<td class="text-bold">{{:ring}}</td>
+					<td class="text-bold text-center">
+						<span class="sex-{{:sex}}">{{if sex == 0}}<i class="fa fa-venus"></i>{{else}}<i class="fa fa-mars"></i>{{/if}}</span>
+					</td>
+					<td class="text-center">
+						{{if sex == 2}}
+							-
+						{{else}}
+							{{:month}}/{{:year}}
+						{{/if}}
+					</td>
+					<td class="text-center">{{:translated.color}}</td>
+					<td class="text-center">{{:translated.grade}}</td>
+					<td class="text-center">-</td>
+					<td class="text-center">-</td>
+				</tr>
+			{{else}}
+				<tr>
+					<td colspan="5">
+						Nenhum animal que atenda aos critérios requisitados
+					</td>
+				</tr>
+			{{/for}}
+		</tbody>
+	</table>
+</div>
