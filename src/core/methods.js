@@ -13,30 +13,6 @@ export const Methods = new ((function(){
 			return getDb()
 		setDb(db)
 	}
-	__constructor.prototype.listBull = function(args){
-		let db = this.db()
-		if(args == undefined)
-			args = {}
-		db.find(args,(err,docs) => {
-			let eachAnimal = (element, index, array) => {
-			    element = translate(element)
-			}
-			docs.forEach(eachAnimal)
-			Visuals.page.listBull(docs)
-		});
-	}
-	__constructor.prototype.listSell = function(args){
-		let db = this.db()
-		if(args == undefined)
-			args = {}
-		db.find(args,(err,docs) => {
-			let eachAnimal = (element, index, array) => {
-			    element = translate(element)
-			}
-			docs.forEach(eachAnimal)
-			Visuals.page.listSell(docs)
-		});
-	}
 	return __constructor
 })())
 Methods.insertAnimal = function(data){
@@ -105,16 +81,18 @@ Methods.openAnimal = function(data){
 		}
 	});
 }
-Methods.listAnimal = function(args){
+Methods.listAnimal = function(args,list){
 	let db = this.db()
 	if(args == undefined)
 		args = {}
+	if(list == undefined)
+		list = "list";
 	db.find(args,(err,docs) => {
 		let eachAnimal = (element, index, array) => {
 		    element = translate(element)
 		}
 		docs.forEach(eachAnimal)
-		Visuals.page.list(docs)
+		Visuals.page[list](docs)
 	});
 }
 Methods.removeAnimal = function(data){
@@ -240,13 +218,13 @@ export const Routes = new ((function(){
 		Visuals.effects.feedback()
 		Config.route = 'listBull'
 		let args = data.filter
-		Methods.listBull(args)
+		Methods.listAnimal(args,"listBull")
 	}
 	__constructor.prototype.listSell = function(data){
 		Visuals.effects.feedback()
 		Config.route = 'listSell'
 		let args = data.filter
-		Methods.listSell(args)
+		Methods.listAnimal(args,"listSell")
 	}
 	__constructor.prototype.inserted = function(doc){
 		Visuals.page.inserted(doc)
