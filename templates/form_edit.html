@@ -11,7 +11,7 @@
 					<li>
 						<i class="fa fa-ban"></i>
 					</li>
-				{{/if}}
+				{{/if}}ce
 				{{if _trash}}
 					<li>
 						<i class="fa fa-trash"></i>
@@ -25,12 +25,12 @@
 			</ul>
 		</div>
 		<div class="clear-both single-data">
-			<h5 class="margin-bottom"><b><span class="sex-{{:sex}}">{{if sex == 1}}<i class="fa fa-mars"></i>{{else}}<i class="fa fa-venus"></i>{{/if}}</span></b> {{:translate.race}} <small>({{:translate.grade}})</small></h5>
+			<h5 class="margin-bottom"><b><span class="sex-{{:sex}}">{{if sex == 1}}<i class="fa fa-mars"></i>{{else}}<i class="fa fa-venus"></i>{{/if}}</span></b> {{:translated.race}} <small>({{:translated.grade}})</small></h5>
 			{{if age}}
 				<p>{{:age}}</p>
 			{{/if}}
 			<h6>nascimento</h6>
-			<p><i class="fa fa-calendar"></i> <b>{{:born.month}}/{{:born.year}}</b></p>
+			<p><i class="fa fa-calendar"></i> <b>{{:translated.month}}/{{:year}}</b></p>
 		</div>
 	</div>
 	<div class="col-3 col-lateral">
@@ -58,9 +58,12 @@
 <div id="register">
 	<p>Altere os dados abaixo e confirme para editar o animal</p>
 	<form action="/" id="form-animal-edit" class="form">
-		<div class="col-2 form-cell">
+		<input type="hidden" id="form-animal-_id" name="_id" value="{{:_id}}"/>
+		<input type="hidden" id="form-animal-sex" name="sex" value="{{:sex}}"/>
+		<input type="hidden" id="form-animal-status" name="status" value="{{:status}}"/>
+		<div class="col-2 form-cell clear-both">
 			<div class="col-10 form-label">
-				<label for="form-animal-ring">Brinco</label>
+				<label for="form-animal-ring">Tatuagem</label>
 			</div>
 			<div class="col-10 clearfix">
 				<input type="text" name="ring" value="{{:ring}}" id="form-animal-ring" class="col-10">
@@ -76,23 +79,19 @@
 		</div>
 		<div class="col-5 form-cell">
 			<div class="col-10 form-label">
-				<label for="form-animal-mark">Marca</label>
+				<label for="form-animal-reg">Nº Registro <small>(Caso exista)</small></label>
 			</div>
 			<div class="col-10 clearfix">
-				<select name="mark" id="form-animal-mark" class="col-10">
-					<option value="{{:mark}}" selected="selected">{{:mark}}</option>
-					<option value="luciano">Luciano</option>
-					<option value="jr">Luciano Jr</option>
-				</select>
+				<input type="text" name="reg" value="{{:reg}}" id="form-animal-reg" class="col-10">
 			</div>
 		</div>
-		<div class="col-2 form-cell clear-both">
+		<div class="col-1 form-cell clear-both">
 			<div class="col-10 form-label">
-				<label for="form-animal-month">Mês</label>
+				<label for="form-animal-day">Dia</label>
 			</div>
 			<div class="col-10 clearfix">
-				<select name="month" id="form-animal-month" class="col-10">
-					<option value="{{:born.month}}" selected="selected">{{:born.month}}</option>
+				<select name="day" id="form-animal-day" class="col-10">
+					<option value="{{:day}}" selected="selected">{{:day}}</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -105,16 +104,57 @@
 					<option value="10">10</option>
 					<option value="11">11</option>
 					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="21">21</option>
+					<option value="22">22</option>
+					<option value="23">23</option>
+					<option value="24">24</option>
+					<option value="25">25</option>
+					<option value="26">26</option>
+					<option value="27">27</option>
+					<option value="28">28</option>
+					<option value="29">29</option>
+					<option value="30">30</option>
+					<option value="31">31</option>
 				</select>
 			</div>
 		</div>
-		<div class="col-3 form-cell">
+		<div class="col-2 form-cell">
+			<div class="col-10 form-label">
+				<label for="form-animal-month">Mês</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="month" id="form-animal-month" class="col-10">
+					<option value="{{:month}}" selected="selected">{{:month}}</option>
+					<option value="1">Janeiro</option>
+					<option value="2">Fevereiro</option>
+					<option value="3">Março</option>
+					<option value="4">Abril</option>
+					<option value="5">Maio</option>
+					<option value="6">Junho</option>
+					<option value="7">Julho</option>
+					<option value="8">Agosto</option>
+					<option value="9">Setembro</option>
+					<option value="10">Outubro</option>
+					<option value="11">Novembro</option>
+					<option value="12">Dezembro</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-2 form-cell">
 			<div class="col-10 form-label">
 				<label for="form-animal-year">Ano</label>
 			</div>
 			<div class="col-10 clearfix">
 				<select name="year" id="form-animal-year" class="col-10">
-					<option value="{{:born.year}}" selected="selected">{{:born.year}}</option>
+					<option value="{{:year}}" selected="selected">{{:year}}</option>
 					<option value="2017">2017</option>
 					<option value="2016">2016</option>
 					<option value="2015">2015</option>
@@ -140,14 +180,13 @@
 		</div>
 		<div class="col-5 form-cell">
 			<div class="col-10 form-label">
-				<label for="form-animal-mom">Filiação</label>
+				<label for="form-animal-mark">Proprietário</label>
 			</div>
 			<div class="col-10 clearfix">
-				<select name="mom" id="form-animal-mom" class="col-10">
-					<option value="" selected="selected">Desconhecido</option>
-					{{for females}}
-						<option value="{{:_id}}" selected="selected">{{:ring}}</option>
-					{{/for}}
+				<select name="mark" id="form-animal-mark" class="col-10">
+					<option value="{{:mark}}" selected="selected">{{:translated.mark}}</option>
+					<option value="luciano">Luciano</option>
+					<option value="jr">Luciano Jr</option>
 				</select>
 			</div>
 		</div>
@@ -157,7 +196,7 @@
 			</div>
 			<div class="col-10 clearfix">
 				<select name="race" id="form-animal-race" class="col-10">
-					<option value="{{:race}}" selected="selected">{{:translate.race}}</option>
+					<option value="{{:race}}" selected="selected">{{:translated.race}}</option>
 					<option value="cruzado">Cruzado</option>
 					<option value="brangus">Brangus</option>
 					<option value="nelore">Nelore</option>
@@ -178,13 +217,53 @@
 			</div>
 			<div class="col-10 clearfix">
 				<select name="grade" id="form-animal-grade" class="col-10">
-					<option value="{{:grade}}">{{:translate.grade}}</option>
+					<option value="{{:grade}}" selected="selected">{{:translated.grade}}</option>
 					<option value="1">Puro</option>
 					<option value="38">3/8</option>
-					<option value="18">1/8</option>
 					<option value="34">3/4</option>
 					<option value="14">1/4</option>
 					<option value="12">1/2</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-3 form-cell">
+			<div class="col-10 form-label">
+				<label for="form-animal-color">Pelagem</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="color" id="form-animal-color" class="col-10">
+					<option value="{{:color}}" selected="selected">{{:translated.color}}</option>
+					<option value="branco" selected="selected">Branca</option>
+					<option value="preto">Preta</option>
+					<option value="vermelho">Vermelha</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-4 form-cell clear-both">
+			<div class="col-10 form-label">
+				<label for="form-animal-mom">Filiação - Mãe</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="mom" id="form-animal-mom" class="col-10">
+					<option value="{{:mom}}" selected="selected">-</option>
+					<option value="">Desconhecido</option>
+					{{for females}}
+						<option value="{{:_id}}">{{:ring}}</option>
+					{{/for}}
+				</select>
+			</div>
+		</div>
+		<div class="col-4 form-cell clear-both">
+			<div class="col-10 form-label">
+				<label for="form-animal-dad">Filiação - Pai</label>
+			</div>
+			<div class="col-10 clearfix">
+				<select name="dad" id="form-animal-dad" class="col-10">
+					<option value="{{:dad}}" selected="selected">-</option>
+					<option value="">Desconhecido</option>
+					{{for males}}
+						<option value="{{:_id}}">{{:ring}}</option>
+					{{/for}}
 				</select>
 			</div>
 		</div>

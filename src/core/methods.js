@@ -29,14 +29,18 @@ Methods.insertAnimal = function(data){
 Methods.editAnimal = function(data){
 	let db = this.db()
 	let animal = data.animal
-	console.log('edit')
-	/*db.update(animal,(err,doc) => {
-		Routes.register()
-		let _id = doc._id
+	let query = {
+		_id: animal._id
+	}
+	let options = {
+		returnUpdatedDocs: true
+	}
+	db.update(query,animal,options,(err, numAffected, affectedDocuments) => {
 		Visuals.effects.feedback({
-			msg: "Registro adicionado com sucesso"
+			msg: "Registro alterado com sucesso"
 		})
-	})*/
+		Routes.single(affectedDocuments)
+	})
 }
 Methods.openAnimal = function(data){
 	let db = this.db()
@@ -212,19 +216,8 @@ export const Routes = new ((function(){
 		Visuals.effects.feedback()
 		Config.route = 'list'
 		let args = data.filter
-		Methods.listAnimal(args)
-	}
-	__constructor.prototype.listBull = function(data){
-		Visuals.effects.feedback()
-		Config.route = 'listBull'
-		let args = data.filter
-		Methods.listAnimal(args,"listBull")
-	}
-	__constructor.prototype.listSell = function(data){
-		Visuals.effects.feedback()
-		Config.route = 'listSell'
-		let args = data.filter
-		Methods.listAnimal(args,"listSell")
+		let template = data.template
+		Methods.listAnimal(args,template)
 	}
 	__constructor.prototype.inserted = function(doc){
 		Visuals.page.inserted(doc)
@@ -317,6 +310,7 @@ export const Visuals = new ((function(){
 	}
 	// page edit single animal
 	__constructor.prototype.page.edit = (animal) => {
+		console.log('aqui',animal)
 		let tmpl = Render.templates("./templates/form_edit.html")
 		let html = tmpl.render(animal)
 		renderString(html,'content')
@@ -351,7 +345,7 @@ export const Forms = new ((function(){
 	__constructor.prototype.animal = {}
 	// mount animal object based on form
 	__constructor.prototype.animal.register = (form) => {
-		let fields = ['reg','id','ring','day','month','year','grade','race','mark','sex','mom','dad','color','name'] 
+		let fields = ['status','reg','_id','ring','day','month','year','grade','race','mark','sex','mom','dad','color','name'] 
 		let animal = {}
 		let eachElement = (element, index, array) => {
 		    if(form[element] != undefined){

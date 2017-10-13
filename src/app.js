@@ -48,15 +48,14 @@ const Events = new ((function(){
 		delegate.on('submit','#form-animal',function(event){
 			event.preventDefault()
 			var animal = Forms.animal.register(this)
-			animal.status = 'ok'
 			Methods.insertAnimal({
 				animal: animal
 			});
 			return false
 		});
-		delegate.on('submit','#form-animal-edit',(event) => {
+		delegate.on('submit','#form-animal-edit',function(event){
 			event.preventDefault()
-			var animal = Forms.animal.register()
+			var animal = Forms.animal.register(this)
 			Methods.editAnimal({
 				animal: animal
 			});
