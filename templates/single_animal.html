@@ -1,0 +1,168 @@
+<div id="single">
+	<div class="col-7 clearfix col-main">
+		<div class="single-info clearfix">
+			<div class="single-ring float-left">
+				<div class="single-badge">
+					<i class="fa fa-tag"></i> {{:ring}}
+				</div>
+			</div>
+			<ul class="float-left">
+				{{if _dead}}
+					<li>
+						<i class="fa fa-ban"></i>
+					</li>
+				{{/if}}
+				{{if _trash}}
+					<li>
+						<i class="fa fa-trash"></i>
+					</li>
+				{{/if}}
+				{{if _problem}}
+					<li>
+						<i class="fa fa-bomb"></i>
+					</li>
+				{{/if}}
+			</ul>
+		</div>
+		<div class="clear-both single-data">
+			<h5 class="margin-bottom"><b><span class="sex-{{:sex}}">{{if sex == 0}}<i class="fa fa-venus"></i>{{else}}<i class="fa fa-mars"></i>{{/if}}</span></b> {{:translated.race}} <small>({{:translated.grade}})</small></h5>
+			{{if age}}
+				<p>{{:age}}</p>
+			{{/if}}
+			<h6>nascimento</h6>
+			<p><i class="fa fa-calendar"></i> <b>{{:month}}/{{:year}}</b></p>
+			<hr>
+			{{if mom}}
+				<div class="single-mom">
+					<h6>Mãe</h6>
+					<table class="table width-full">
+						<thead>
+							<tr>
+								<th>Cor</th>
+								<th>Brinco</th>
+								<th>Marca</th>
+								<th>Nascimento</th>
+								<th>Ações</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr id="list-{{:_id}}">
+								<td class="text-bold"><i class="fa fa-tag"></i></td>
+								<td class="text-bold">{{:mom.ring}}</td>
+								<td class="text-center">{{:mom.mark}}</td>
+								<td class="text-center">{{:mom.month}}/{{:mom.year}}</td>
+								<td class="text-center">
+									<a href="#" data-args='{"route":"single","_id":"{{:mom._id}}"}' class="link fa fa-search"></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			{{/if}}
+			{{if dad}}
+				<div class="single-mom">
+					<h6>Pai</h6>
+					<table class="table width-full">
+						<thead>
+							<tr>
+								<th>Cor</th>
+								<th>Brinco</th>
+								<th>Marca</th>
+								<th>Ações</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr id="list-{{:_id}}">
+								<td class="text-bold"><i class="fa fa-tag"></i></td>
+								<td class="text-bold">{{:dad.ring}}</td>
+								<td class="text-center">{{:dad.mark}}</td>
+								<td class="text-center">
+									<a href="#" data-args='{"route":"singleBull","_id":"{{:mom._id}}"}' class="link fa fa-search"></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			{{/if}}
+			{{if sons}}
+				<div class="single-sons">
+					<h6>Filhos</h6>
+					<table class="table width-full">
+						<thead>
+							<tr>
+								<th>Cor</th>
+								<th>Brinco</th>
+								<th>Sexo</th>
+								<th>Marca</th>
+								<th>Nascimento</th>
+								<th>Ações</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{for sons}} 
+								<tr id="list-{{:_id}}">
+									<td class="text-bold"><i class="fa fa-tag"></i></td>
+									<td class="text-bold">{{:ring}}</td>
+									<td class="text-center sex-{{:sex}}"><b>{{if sex == 0}}<i class="fa fa-venus"></i>{{else}}<i class="fa fa-mars">{{/if}}</b></td>
+									<td class="text-center">{{:mark}}</td>
+									<td class="text-center">{{:month}}/{{:year}}</td>
+									<td class="text-center">
+										<a href="#" data-args='{"route":"single","_id":"{{:_id}}"}' class="link fa fa-search"></a>
+									</td>
+								</tr>
+							{{/for}}
+						</tbody>
+					</table>
+				</div>
+			{{/if}}
+		</div>
+	</div>
+	<div class="col-3 col-lateral">
+		<div class="single-photo margin-bottom">
+			<img src="./images/{{:race}}.jpg" alt="" class="display-block width-full">
+		</div>
+		<div class="single-options">
+			<table class="table width-full">
+				<thead>
+					<tr>
+						<th>Opções</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="text-bold">
+							<a href="#" data-args='{"route":"kill","_id":"{{:_id}}"}' class="link"><i class="fa fa-cutlery "></i> Abater</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-bold">
+							<a href="#" data-args='{"route":"sell","_id":"{{:_id}}"}' class="link"><i class="fa fa-usd "></i> Vender</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-bold">
+							<a href="#" data-args='{"route":"remove","_id":"{{:_id}}"}' class="link"><i class="fa fa-trash"></i> Excluir</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-bold">
+							<a href="#" data-args='{"route":"edit","_id":"{{:_id}}"}' class="link"><i class="fa fa-pencil"></i> Editar</a>
+						</td>
+					</tr>
+					{{if sex == 0}}
+						<tr>
+							<td class="text-bold">
+								<a href="#" data-args='{"route":"registerChild","_id":"{{:_id}}"}' class="link"><i class="fa fa-code-fork"></i> Adic. Filho</a>
+							</td>
+						</tr>
+					{{/if}}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-10">
+		<table>
+				
+		</table>
+	</div>
+</div>

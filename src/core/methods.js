@@ -85,6 +85,29 @@ Methods.openAnimal = function(data){
 		}
 	});
 }
+Methods.openBull = function(data){
+	let db = this.db()
+	let args = {
+		_id: data._id
+	}
+	db.findOne(args,(err,doc) => {
+		let bull = doc
+		if(bull._id){
+			bull = translate(bull)
+			let args = {
+				dad: bull._id
+			}
+			db.find(args,(err,docs) => {
+				if(docs.length){
+					bull.sons = docs
+				}
+				Visuals.page.singleBull(bull)
+			});
+		}else{
+			Errors.message('_id not found')
+		}
+	});
+}
 Methods.listAnimal = function(args,list){
 	let db = this.db()
 	if(args == undefined)
@@ -202,6 +225,10 @@ export const Routes = new ((function(){
 		let _id = data._id
 		Methods.openAnimal(data)
 	}
+	__constructor.prototype.singleBull = function(data){
+		let _id = data._id
+		Methods.openBull(data)
+	}
 	__constructor.prototype.register = function(){
 		Methods.prepareRegister()
 	}
@@ -260,7 +287,16 @@ export const Visuals = new ((function(){
 	}
 	// page each animal info
 	__constructor.prototype.page.single = (doc) => {
-		let tmpl = Render.templates("./templates/animal_single.html")
+		console.log('animal')
+
+		let tmpl = Render.templates("./templates/single_animal.html")
+		let html = tmpl.render(doc)
+		renderString(html,'content')
+	}
+	// page each bull info
+	__constructor.prototype.page.singleBull = (doc) => {
+		console.log('bull')
+		let tmpl = Render.templates("./templates/single_bull.html")
 		let html = tmpl.render(doc)
 		renderString(html,'content')
 	}
