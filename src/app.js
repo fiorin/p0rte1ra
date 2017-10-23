@@ -67,4 +67,5 @@ const Events = new ((function(){
 document.addEventListener('DOMContentLoaded', () => {
 	Events.forms()
 	Events.links()
+	Visuals.page.home()
 });

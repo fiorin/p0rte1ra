@@ -1,0 +1,10 @@
+<ul class="list-inline">
+	<li>
+		<a href="#" data-args='{"route":"home"}' class="link">Início</a>
+	</li>
+	{{if label}}
+		<li>
+			<a href="#" {{if data}}data-args='{{:data}}' class="link"{{/if}}>{{:label}}</a>
+		</li>
+	{{/if}}
+</ul>

@@ -81,14 +81,14 @@ body #main{
 body #main p{
   margin:5px 0;
 }
-body #breadcrumbs{
+body #breadcrumb{
   padding:0 0 20px;
   color: #333;
 }
-body #breadcrumbs li{
+body #breadcrumb li{
   
 }
-body #breadcrumbs li:not(:last-child):after{
+body #breadcrumb li:not(:last-child):after{
   content: "\2023";
 }
 div#content{

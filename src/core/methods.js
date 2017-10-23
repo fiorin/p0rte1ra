@@ -281,24 +281,26 @@ export const Visuals = new ((function(){
 	__constructor.prototype.page = {}
 	// page home
 	__constructor.prototype.page.home = () => {
+		console.log('aqui')
 		let tmpl = Render.templates("./templates/home.html")
 		let html = tmpl.render()
 		renderString(html,'content')
+		Visuals.effects.route("home")
 	}
 	// page each animal info
 	__constructor.prototype.page.single = (doc) => {
 		console.log('animal')
-
 		let tmpl = Render.templates("./templates/single_animal.html")
 		let html = tmpl.render(doc)
 		renderString(html,'content')
+		Visuals.effects.route("single")
 	}
 	// page each bull info
 	__constructor.prototype.page.singleBull = (doc) => {
-		console.log('bull')
 		let tmpl = Render.templates("./templates/single_bull.html")
 		let html = tmpl.render(doc)
 		renderString(html,'content')
+		Visuals.effects.route("singleBull")
 	}
 	// page register confirmation
 	__constructor.prototype.page.inserted = (doc) => {
@@ -310,18 +312,21 @@ export const Visuals = new ((function(){
 		let tmpl = Render.templates("./templates/animal_list.html")
 		let html = tmpl.render({docs: docs})
 		renderString(html,'content')
+		Visuals.effects.route("list")
 	}
 	// page bull default list
 	__constructor.prototype.page.listBull = (docs) => {
 		let tmpl = Render.templates("./templates/list_bull.html")
 		let html = tmpl.render({docs: docs})
 		renderString(html,'content')
+		Visuals.effects.route("listBull")
 	}
 	// page bull default list
 	__constructor.prototype.page.listSell = (docs) => {
 		let tmpl = Render.templates("./templates/list_sell.html")
 		let html = tmpl.render({docs: docs})
 		renderString(html,'content')
+		Visuals.effects.route("listSell")
 	}
 	// page register animal default
 	__constructor.prototype.page.register = (args) => {
@@ -331,18 +336,21 @@ export const Visuals = new ((function(){
 			males: args.males
 		})
 		renderString(html,'content')
+		Visuals.effects.route("register")
 	}
 	// page register bull
 	__constructor.prototype.page.registerBull = () => {
 		let tmpl = Render.templates("./templates/form_register_bull.html")
 		let html = tmpl.render({})
 		renderString(html,'content')
+		Visuals.effects.route("registerBull")
 	}
 	// page register animal child direct from single
 	__constructor.prototype.page.registerChild = (mom) => {
 		let tmpl = Render.templates("./templates/form_register_child.html")
 		let html = tmpl.render(mom)
 		renderString(html,'content')
+		Visuals.effects.route("registerChild")
 	}
 	// page edit single animal
 	__constructor.prototype.page.edit = (animal) => {
@@ -350,6 +358,7 @@ export const Visuals = new ((function(){
 		let tmpl = Render.templates("./templates/form_edit.html")
 		let html = tmpl.render(animal)
 		renderString(html,'content')
+		Visuals.effects.route("edit")
 	}
 	// default effects method
 	__constructor.prototype.effects = {}
@@ -371,6 +380,18 @@ export const Visuals = new ((function(){
 			})
 		}
 		renderString(html,'feedback')
+	}
+	// show breadcrumbs
+	__constructor.prototype.effects.route = (route) => {
+		let args = breadcrumb(route)
+		let data = args.data || {}
+		let label = args.label || null
+		let tmpl = Render.templates("./templates/breadcrumb.html")
+		let html = tmpl.render({
+			label: label,
+			data: JSON.stringify(data)
+		})
+		renderString(html,'breadcrumb')
 	}
 	return __constructor
 })())
@@ -427,6 +448,11 @@ const translate = (object) => {
 	}
 	return object
 }
+const breadcrumb = (target) => {
+	if(target == undefined)
+		return {}
+	return Breadcrumb[target] != undefined ? Breadcrumb[target] : {}
+}
 
 const Translate = {
 	all: {
@@ -477,4 +503,19 @@ const Translate = {
 		preto: 'Preta',
 		vermelho: 'Vermelho'
 	}
+}
+
+const Breadcrumb = {
+	home: {},
+	list: {"label": "Listar Animais"},
+	listSell: {"label": "Listar Vendas"},
+	listKill: {"label": "Listar Baixas"},
+	listBull: {"label": "Listar Touros"},
+	single: {"label": "Animal"},
+	singleBull: {"label": "Touro"},
+	register: {"label": "Cadastrar Animal"},
+	registerBull: {"label": "Cadastrar Touro"},
+	registerChild: {"label": "Cadastrar Filho"},
+	edit: {"label": "Editar Animal"},
+	editBull: {"label": "Editar Touro"}
 }
