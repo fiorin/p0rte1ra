@@ -154,13 +154,18 @@
 						{{/if}}
 						<tr>
 							<td class="text-bold">
-								<a href="#" data-args='{"route":"remove","_id":"{{:_id}}"}' class="link red"><i class="fa fa-trash"></i> Excluir</a>
+								<a href="#" data-args='{"route":"remove","_id":"{{:_id}}"}' class="link red"><i class="fa fa-trash"></i> Lixeira</a>
 							</td>
 						</tr>
 					{{else}}
 						<tr>
 							<td class="text-bold">
-								<a href="#" data-args='' class="link"><i class="fa fa-trash"></i> Restaurar</a>
+								<a href="#" data-args='' class="link"><i class="fa fa-rotate-left"></i> Restaurar</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-bold">
+								<a href="#" data-args='{"route":"permanentRemove","_id":"{{:_id}}"}' class="link red"><i class="fa fa-times"></i> Remover Permanente</a>
 							</td>
 						</tr>
 					{{/if}}

@@ -124,39 +124,31 @@ Methods.listAnimal = function(args,list){
 }
 Methods.removeAnimal = function(data){
 	let db = this.db()
-	let query = {
-		_id: data._id
-	}
-	let options = {
-		returnUpdatedDocs: true
-	}
-	let update = { 
-		$set: { "status": "trash" }
-	}
-	if(data.stay){
-		Visuals.effects.removeElement(args)
-		//db.remove(args,(err,doc) => {
-		//	doc && Visuals.effects.feedback({
-		//		msg: "Registro removido com sucesso"
-		//	})
-		//})
-		db.update(query,update,options,(err, numAffected, affectedDocuments) => {
-			Visuals.effects.feedback({
-				msg: "Registro enviado à lixeira"
-			})
-			Routes.home()
+	let query = {_id: data._id}
+	let options = {returnUpdatedDocs: true}
+	let update = {$set:{"status":"trash"}}
+	db.update(query,update,options,(err, numAffected, affectedDocuments) => {
+		Visuals.effects.feedback({
+			msg: "Registro enviado à lixeira"
 		})
-	}else{
-		db.update(query,update,options,(err, numAffected, affectedDocuments) => {
-			Visuals.effects.feedback({
-				msg: "Registro enviado à lixeira"
-			})
+		if(data.stay != undefined)
+			Visuals.effects.removeElement(query)
+		else
 			Routes.home()
+	})
+}
+Methods.permanentRemoveAnimal = function(data){
+	let db = this.db()
+	let args = {_id: data._id}
+	db.remove(args,(err,doc) => {
+		doc && Visuals.effects.feedback({
+			msg: "Registro removido com sucesso"
 		})
-		//db.remove(args,(err,doc) => {
-		//	Routes.home()
-		//})
-	}
+		if(data.stay != undefined)
+			Visuals.effects.removeElement(args)
+		else
+			Routes.home()
+	})
 }
 Methods.listSons = function(args){
 	let db = this.db()
@@ -271,6 +263,14 @@ export const Routes = new ((function(){
 		let _id = data._id
 		let stay = data.stay
 		Methods.removeAnimal({
+			_id: _id,
+			stay: stay
+		})
+	}
+	__constructor.prototype.permanentRemove = function(data){
+		let _id = data._id
+		let stay = data.stay
+		Methods.permanentRemoveAnimal({
 			_id: _id,
 			stay: stay
 		})
@@ -391,7 +391,7 @@ export const Visuals = new ((function(){
 	__constructor.prototype.effects.removeElement = (args) => {
 		let _id = args._id
 		let element = document.getElementById('list-'+_id)
-		element.classList.add("nodisplay")
+		element != undefined && element.classList.add("nodisplay")
 	}
 	// show message feedback page top
 	__constructor.prototype.effects.feedback = (args) => {

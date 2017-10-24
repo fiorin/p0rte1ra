@@ -2,7 +2,7 @@
   "name": "p0rte1ra",
   "productName": "p0rte1ra",
   "description": "Sistema para controle bovino",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Luciano Fiorin <luciano@fior.in>",
   "copyright": "© 2016, Gumby inc.",
   "homepage": "http://fior.in/p0rte1ra",
@@ -13,7 +13,7 @@
     "files": [
       "app/**/*",
       "database/**/*",
-      "templates/**/*",
+      "templates/**",
       "node_modules/**/*",
       "package.json"
     ],
@@ -41,7 +41,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "electron": "^1.6.2",
-    "electron-builder": "^14.5.2",
+    "electron-builder": "^14.5.3",
     "electron-mocha": "^3.3.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
