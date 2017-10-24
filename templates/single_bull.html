@@ -106,26 +106,34 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td class="text-bold">
-							<a href="#" data-args='{"route":"kill","_id":"{{:_id}}"}' class="link"><i class="fa fa-cutlery "></i> Abater</a>
-						</td>
-					</tr>
-					<tr>
-						<td class="text-bold">
-							<a href="#" data-args='{"route":"sell","_id":"{{:_id}}"}' class="link"><i class="fa fa-usd "></i> Vender</a>
-						</td>
-					</tr>
-					<tr>
-						<td class="text-bold">
-							<a href="#" data-args='{"route":"remove","_id":"{{:_id}}"}' class="link"><i class="fa fa-trash"></i> Excluir</a>
-						</td>
-					</tr>
-					<tr class="nodisplay">
-						<td class="text-bold">
-							<a href="#" data-args='{"route":"edit","_id":"{{:_id}}"}' class="link"><i class="fa fa-pencil"></i> Editar</a>
-						</td>
-					</tr>
+					{{if status != 'trash'}}
+						<tr>
+							<td class="text-bold">
+								<a href="#" data-args='{"route":"kill","_id":"{{:_id}}"}' class="link"><i class="fa fa-cutlery "></i> Abater</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-bold">
+								<a href="#" data-args='{"route":"sell","_id":"{{:_id}}"}' class="link"><i class="fa fa-usd "></i> Vender</a>
+							</td>
+						</tr>
+						<tr class="nodisplay">
+							<td class="text-bold">
+								<a href="#" data-args='{"route":"edit","_id":"{{:_id}}"}' class="link"><i class="fa fa-pencil"></i> Editar</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-bold">
+								<a href="#" data-args='{"route":"remove","_id":"{{:_id}}"}' class="link red"><i class="fa fa-trash"></i> Excluir</a>
+							</td>
+						</tr>
+					{{else}}
+						<tr>
+							<td class="text-bold">
+								<a href="#" data-args='' class="link"><i class="fa fa-trash"></i> Restaurar</a>
+							</td>
+						</tr>
+					{{/if}}
 				</tbody>
 			</table>
 		</div>

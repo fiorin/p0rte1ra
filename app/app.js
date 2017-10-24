@@ -221,20 +221,38 @@ Methods.listAnimal = function(args,list){
 };
 Methods.removeAnimal = function(data){
 	let db = this.db();
-	let args = {
+	let query = {
 		_id: data._id
+	};
+	let options = {
+		returnUpdatedDocs: true
+	};
+	let update = { 
+		$set: { "status": "trash" }
 	};
 	if(data.stay){
 		Visuals.effects.removeElement(args);
-		db.remove(args,(err,doc) => {
-			doc && Visuals.effects.feedback({
-				msg: "Registro removido com sucesso"
+		//db.remove(args,(err,doc) => {
+		//	doc && Visuals.effects.feedback({
+		//		msg: "Registro removido com sucesso"
+		//	})
+		//})
+		db.update(query,update,options,(err, numAffected, affectedDocuments) => {
+			Visuals.effects.feedback({
+				msg: "Registro enviado à lixeira"
 			});
-		});
-	}else{
-		db.remove(args,(err,doc) => {
 			Routes.home();
 		});
+	}else{
+		db.update(query,update,options,(err, numAffected, affectedDocuments) => {
+			Visuals.effects.feedback({
+				msg: "Registro enviado à lixeira"
+			});
+			Routes.home();
+		});
+		//db.remove(args,(err,doc) => {
+		//	Routes.home()
+		//})
 	}
 };
 Methods.listSons = function(args){
@@ -425,6 +443,13 @@ const Visuals = new ((function(){
 		renderString(html,'content');
 		Visuals.effects.route("listSell");
 	};
+	// page bull default list
+	__constructor.prototype.page.listTrash = (docs) => {
+		let tmpl = Render.templates("./templates/list_trash.html");
+		let html = tmpl.render({docs: docs});
+		renderString(html,'content');
+		Visuals.effects.route("listTrash");
+	};
 	// page register animal default
 	__constructor.prototype.page.register = (args) => {
 		let tmpl = Render.templates("./templates/form_register.html");
@@ -603,6 +628,7 @@ const Breadcrumb = {
 	listSell: {"label": "Listar Vendas"},
 	listKill: {"label": "Listar Baixas"},
 	listBull: {"label": "Listar Touros"},
+	listTrash: {"label": "Lixeira"},
 	single: {"label": "Animal"},
 	singleBull: {"label": "Touro"},
 	register: {"label": "Cadastrar Animal"},

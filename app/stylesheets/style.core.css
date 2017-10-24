@@ -18,6 +18,9 @@ a:hover{
 .font-28{
   font-size:28px;
 }
+a.red{
+  color:#992200;
+}
 tr.link{
   cursor:pointer;
 }
@@ -210,6 +213,7 @@ table.table .fa{
   font-size:30px;
   padding:5px 10px;  
 }
+
 #single .single-data{
   font-size:14px;
 }
