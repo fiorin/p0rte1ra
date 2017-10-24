@@ -1,4 +1,4 @@
-# p0rte1ra
+# [p0rte1ra](https://github.com/fiorin/p0rte1ra)
 
 __Pilhas de papel e tabelas a perder de vista ?__ :cow:
 
@@ -17,7 +17,7 @@ O projeto foi desenvolvido sob o framework [Electron](https://electron.atom.io) 
 
 ----------------------
 
-Copyright 2017 @Fiorin
+Copyright 2017 [fior.in](https://fior.in)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
