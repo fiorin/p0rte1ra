@@ -7,44 +7,6 @@ var url = _interopDefault(require('url'));
 var electron = require('electron');
 var jetpack = _interopDefault(require('fs-jetpack'));
 
-const devMenuTemplate = {
-  label: 'Development',
-  submenu: [{
-    label: 'Reload',
-    accelerator: 'CmdOrCtrl+R',
-    click: () => {
-      electron.BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache();
-    },
-  },
-  {
-    label: 'Toggle DevTools',
-    accelerator: 'Alt+CmdOrCtrl+I',
-    click: () => {
-      electron.BrowserWindow.getFocusedWindow().toggleDevTools();
-    },
-  },
-  {
-    label: 'Quit',
-    accelerator: 'CmdOrCtrl+Q',
-    click: () => {
-      electron.app.quit();
-    },
-  }],
-};
-
-const editMenuTemplate = {
-  label: 'Edit',
-  submenu: [
-    { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-    { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-    { type: 'separator' },
-    { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-    { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-    { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-    { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' },
-  ],
-};
-
 // This helper remembers the size and position of your windows (and restores
 // them in that place after app relaunch).
 // Can be used for more than one window, just construct many
@@ -137,14 +99,6 @@ const env = jetpack.cwd(__dirname).read('env.json', 'json');
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
-const setApplicationMenu = () => {
-  const menus = [editMenuTemplate];
-  if (env.name !== 'production') {
-    menus.push(devMenuTemplate);
-  }
-  electron.Menu.setApplicationMenu(electron.Menu.buildFromTemplate(menus));
-};
-
 // Save userData in separate folders for each environment.
 // Thanks to this you can use production and development versions of the app
 // on same machine like those are two separate apps.
@@ -154,11 +108,12 @@ if (env.name !== 'production') {
 }
 
 electron.app.on('ready', () => {
-  setApplicationMenu();
+  //setApplicationMenu();
 
   const mainWindow = createWindow('main', {
-    width: 1000,
-    height: 600,
+    width: 1024,
+    height: 700,
+    icon: path.join(__dirname, 'icon/icon.ico')
   });
 
   mainWindow.loadURL(url.format({

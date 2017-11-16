@@ -31,11 +31,12 @@ if (env.name !== 'production') {
 }
 
 app.on('ready', () => {
-  setApplicationMenu();
+  //setApplicationMenu();
 
   const mainWindow = createWindow('main', {
-    width: 1000,
-    height: 600,
+    width: 1024,
+    height: 700,
+    icon: path.join(__dirname, 'icon/icon.ico')
   });
 
   mainWindow.loadURL(url.format({
