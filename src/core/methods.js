@@ -42,6 +42,32 @@ Methods.editAnimal = function(data){
 		Routes.single(affectedDocuments)
 	})
 }
+Methods.getMom = function(animal){
+	let db = this.db()
+	return new Promise(function(resolve,reject){
+		let args = {
+			_id: animal.mom
+		}
+		db.findOne(args,function(err,doc){
+			console.log(doc)
+			animal.mom = doc ? doc : null
+			console.log(animal)
+			resolve(animal)
+		})
+	})
+}
+Methods.getDad = function(animal){
+	let db = this.db()
+	return new Promise(function(resolve,reject){
+		let args = {
+			_id: animal.dad
+		}
+		db.findOne(args,function(err,doc){
+			animal.dad = doc ? doc : null
+			resolve(animal)
+		})
+	})
+}
 Methods.openAnimal = function(data){
 	let db = this.db()
 	let args = {
@@ -51,6 +77,12 @@ Methods.openAnimal = function(data){
 		let animal = doc
 		if(animal._id){
 			animal = translate(animal)
+			Methods.getMom(animal)
+			.then(Methods.getDad(animal))
+			.then(function(animal){
+				console.log(animal)
+			})
+			/*
 			if(animal.mom){
 				let args = {
 					_id: animal.mom
@@ -79,7 +111,7 @@ Methods.openAnimal = function(data){
 					}
 					Visuals.page.single(animal)
 				});
-			}
+			}*/
 		}else{
 			Errors.message('_id not found')
 		}

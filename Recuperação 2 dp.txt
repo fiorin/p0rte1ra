@@ -1,0 +1,64 @@
+Recuperação 2 dp
+
+1 --------------------------------------------
+
+n1 = 1;
+n2 = 1;
+print(n1)
+print(n2)
+n3 = n1 + n2
+while n3 < 500:
+	print(n3)
+	n1 = n2
+	n2 = n3
+
+
+2 --------------------------------------------
+
+def funcao(lista):
+	tamanho = len(lista)
+	for i in range(tamanho):
+		lista[i] = i**2
+	return lista
+
+3 --------------------------------------------
+
+def analise(frase):
+	tamanho = len(frase)
+	espacos = 0;
+	vogais = 0;
+	for i in range(tamanho):
+		caracter = frase[i]
+		if caracter in 'aeiou':
+			vogais = vogais + 1
+		if caracter in ' ':
+			espacos = espacos + 1
+	letras = tamanho - espacos
+	consoantes = letras - vogais
+	if vogais > consoantes:
+		return vogais - consoantes
+	else:
+		return consoantes / letras * 100
+
+4 --------------------------------------------
+
+salarios = []
+salario = float(input(""))
+somatoria = 0
+while salario != 0:
+	salarios.append(salario)
+	somatoria = somatoria + salario
+	salario = float(input(""))
+tamanho = len(salarios)
+media = somatoria / tamanho
+for i in range(tamanho):
+	if salarios[i] < media:
+		print(salarios[i])
+
+5 --------------------------------------------
+
+numero = int(input(""))
+fatorial = 1;
+if numero % 2 != 0:
+	for i in range(numero,0,-1):
+		fatorial = fatorial * i
